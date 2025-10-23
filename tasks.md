@@ -1,4 +1,4 @@
-#Tasks  
+# Tasks  
 MySQL Database Schema Scripts  
 Ashley: Table creation script and index creation script for RENTER_PREFERENCES, RENTER_SETTINGS, HAS_PREFERENCE, and NOTIFIES entities  
 Jeffrey: Table creation script and index creation script for PROPERTY, LANDLORD, and ADDRESS entities  
