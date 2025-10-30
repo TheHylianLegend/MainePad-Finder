@@ -1,5 +1,6 @@
 # Tasks  
-MySQL Database Schema Scripts  
+MySQL Database Schema Scripts
+Deadline: 10/23/25
 Ashley: Table creation script and index creation script for RENTER_PREFERENCES, RENTER_SETTINGS, HAS_PREFERENCE, and NOTIFIES entities  
 Jeffrey: Table creation script and index creation script for PROPERTY, LANDLORD, and ADDRESS entities  
 Sophia: Table creation script and index creation script for NOTIFICATION, MESSAGE, and REVIEW entities  
