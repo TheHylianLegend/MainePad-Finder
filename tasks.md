@@ -6,13 +6,6 @@ Jeffrey: Table creation script for PROPERTY, LANDLORD, and ADDRESS entities
 Sophia: Table creation script for NOTIFICATION, MESSAGE, and REVIEW entities  
 Yunlong: Table creation script for USER, RENTER, and MATCH entitites  
 
-Index Creation Scripts  
-Deadline:  
-Ashley:  
-Jeffrey:  
-Sophia:  
-Yunlong:  
-
 Stored Procedures and Functions  
 Deadline:  
 Ashley:  
