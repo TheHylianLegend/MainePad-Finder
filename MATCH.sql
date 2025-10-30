@@ -7,4 +7,5 @@ CREATE TABLE MATCH(
     ON DELETE CASCADE ON UPDATE CASCADE,
     CHECK (MATCH_ID <> RENTER_ID),
     UNIQUE KEY ux_um_pair (pair_a, pair_b)
-)
+
+);
