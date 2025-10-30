@@ -7,35 +7,32 @@ Sophia: Table creation script for NOTIFICATION, MESSAGE, and REVIEW entities
 Yunlong: Table creation script for USER, RENTER, and MATCH entitites  
 
 Stored Procedures and Functions  
-Deadline:  
-Ashley:  
-Jeffrey:  
-Sophia:  
-Yunlong:  
-  
-Data Scraping Scripts and Documentation  
-Deadline:  
-Ashley:  
-Jeffrey:  
-Sophia:  
-Yunlong:  
+Deadline: 11/4/25
+Ashley:  Add user account procedure
+Jeffrey: Aggregate review function, add match procedure
+Sophia:  Submit review procedure, add notification procedure, add message procedure
+Yunlong: Add property procedure  
   
 Sample Data and Data Cleaning Documentation  
-Deadline:  
+Deadline:  11/6/25
 Ashley:  
 Jeffrey:  
 Sophia:  
 Yunlong:  
   
 Query Optimization Analysis  
-Deadline:  
+Deadline:  11/6/25
+All working together
+
+Data Scraping Scripts and Documentation  
+Deadline: 11/11/25
 Ashley:  
 Jeffrey:  
 Sophia:  
 Yunlong:  
   
 Comprehensive README file  
-Deadline:  
+Deadline:  11/13/25
 Ashley:  
 Jeffrey:  
 Sophia:  
