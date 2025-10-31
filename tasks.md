@@ -12,24 +12,24 @@ Ashley:  Add user account procedure
 Jeffrey: Aggregate review function, add match procedure  
 Sophia:  Submit review procedure, add notification procedure, add message procedure  
 Yunlong: Add property procedure  
+
+Data Scraping Scripts and Documentation  
+Deadline: 11/6/25  
+Ashley:  
+Jeffrey:  
+Sophia:  
+Yunlong:  
   
 Sample Data and Data Cleaning Documentation  
-Deadline:  11/6/25  
+Deadline:  11/11/25  
 Ashley:  
 Jeffrey:  
 Sophia:  
 Yunlong:  
   
 Query Optimization Analysis  
-Deadline:  11/6/25  
+Deadline:  11/11/25  
 All working together  
-
-Data Scraping Scripts and Documentation  
-Deadline: 11/11/25  
-Ashley:  
-Jeffrey:  
-Sophia:  
-Yunlong:  
   
 Comprehensive README file  
 Deadline:  11/13/25  
