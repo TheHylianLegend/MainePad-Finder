@@ -15,17 +15,13 @@ Yunlong: Add property procedure
 
 Data Scraping Scripts and Documentation  
 Deadline: 11/6/25  
-Ashley:  
-Jeffrey:  
-Sophia:  
-Yunlong:  
+Work on writing code together  
+Work on documentation together  
   
 Sample Data and Data Cleaning Documentation  
 Deadline:  11/11/25  
-Ashley:  
-Jeffrey:  
-Sophia:  
-Yunlong:  
+Work on sanitzation and validation together  
+Work on documentation together  
   
 Query Optimization Analysis  
 Deadline:  11/11/25  
@@ -33,7 +29,7 @@ All working together
   
 Comprehensive README file  
 Deadline:  11/13/25  
-Ashley:  
-Jeffrey:  
-Sophia:  
-Yunlong:  
+Ashley:  How to recreate database explanation
+Jeffrey:  How to run webscraping command explanation
+Sophia:  How to run SQL files explanation
+Yunlong:  How to run SQL files explanation
