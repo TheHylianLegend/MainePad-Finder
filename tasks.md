@@ -15,13 +15,17 @@ Yunlong: Add property procedure
 
 Data Scraping Scripts and Documentation  
 Deadline: 11/6/25  
-Work on writing code together  
-Work on documentation together  
+Ashley: Data usage code (Apartments.com)  
+Jeffrey: Data usage code (Zillow.com)  
+Sophia: Data collection code (Apartments.com)  
+Yunlong: Data collection code (Zillow.com)  
   
 Sample Data and Data Cleaning Documentation  
 Deadline:  11/11/25  
-Work on sanitzation and validation together  
-Work on documentation together  
+Ashley: Apartments.com sample data and data cleaning documentation  
+Jeffrey: Zillow.com sample data and data cleaning documentation  
+Sophia: Apartments.com sample data and data cleaning documentation  
+Yunlong: Zillow.com sample data and data cleaning documentation  
   
 Query Optimization Analysis  
 Deadline:  11/11/25  
@@ -29,7 +33,7 @@ All working together
   
 Comprehensive README file  
 Deadline:  11/13/25  
-Ashley:  How to recreate database explanation
-Jeffrey:  How to run webscraping command explanation
-Sophia:  How to run SQL files explanation
-Yunlong:  How to run SQL files explanation
+Ashley:  How to recreate database explanation  
+Jeffrey:  How to run webscraping command explanation  
+Sophia:  How to run SQL files explanation  
+Yunlong:  How to run SQL files explanation  
