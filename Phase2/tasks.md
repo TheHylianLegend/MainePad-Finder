@@ -16,10 +16,10 @@ Yunlong: Add property procedure
 
 Data Scraping Scripts and Documentation  
 Deadline: 11/6/25  
-Ashley: Data usage code (Apartments.com)  
-Jeffrey: Data usage code (Zillow.com)  
-Sophia: Data collection code (Apartments.com)  
-Yunlong: Data collection code (Zillow.com)  
+Ashley: Python script (Apartments.com)  
+Jeffrey: Python script (Zillow.com)  
+Sophia: Documentation (Apartments.com)  
+Yunlong: Documentation (Zillow.com)  
   
 Sample Data and Data Cleaning Documentation  
 Deadline:  11/11/25  
