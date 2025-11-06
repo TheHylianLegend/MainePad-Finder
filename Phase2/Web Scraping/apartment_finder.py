@@ -50,7 +50,37 @@ for link in urls:
     addressParts = [p.strip() for p in parts if p.strip() != "Property Website"]
     cleanAddress = ' '.join(addressParts)
 
-    addresses.append(cleanAddress)
+
+    
+
+
+    # Units 
+
+    # Apartment Number
+
+    print(cleanAddress)
+
+    # Rent Cost
+
+    # Bathrooms
+
+    # Bedrooms
+
+    # Available to Rent
+
+
+
+    # Individual Houses
+
+    # Rent Cost
+
+    # Bathrooms
+
+    # Bedrooms
+
+    # Available to Rent
+
+
     listingDriver.quit()
 
 
