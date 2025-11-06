@@ -15,11 +15,11 @@ Sophia:  Submit review procedure, add notification procedure, add message proced
 Yunlong: Add property procedure  
 
 Data Scraping Scripts and Documentation  
-Deadline: 11/6/25  
-Ashley: Python script (Apartments.com)  
-Jeffrey: Python script (Zillow.com)  
-Sophia: Documentation (Apartments.com)  
-Yunlong: Documentation (Zillow.com)  
+Deadline: 11/8/25  
+Ashley: Data scraping and documentation (Apartments.com)  
+Jeffrey: Data scraping and documentation (Zillow.com)  
+Sophia: Data scraping and documentation (Apartments.com)  
+Yunlong: Data scraping and documentation (Zillow.com)  
   
 Sample Data and Data Cleaning Documentation  
 Deadline:  11/11/25  
