@@ -157,6 +157,8 @@ for link in urls:
 
                 # Append to data array
                 singleListing = [street, city, state, zipcode, unitNum, rent, sqft, bedrooms, bathrooms, available]
+                if not singleListing[4] and not singleListing[5] and not singleListing[6]:
+                    continue
                 if singleListing not in listingData:
                     listingData.append(singleListing)
 
@@ -228,6 +230,8 @@ for link in urls:
 
         #Append to data array 
         singleListing = [street, city, state, zipcode, unitNum, rent, sqft, bedrooms, bathrooms, available]
+        if not singleListing[4] and not singleListing[5] and not singleListing[6]:
+            continue
         if singleListing not in listingData:
             listingData.append(singleListing)
 
