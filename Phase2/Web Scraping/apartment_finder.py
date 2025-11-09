@@ -29,8 +29,7 @@ while True:
         if url and url not in urls:
             urls.append(url)
             print("Found", url)
-            # Testing
-            break
+
     try:
         next = driver.find_element(By.CLASS_NAME, "next")
     except Exception:
@@ -42,10 +41,18 @@ while True:
 print("Found", len(urls), "listings")
 driver.quit()
 
+listingDriver = webdriver.Firefox()
+
 
 for link in urls:
-    listingDriver = webdriver.Firefox()
+    print(link)
     listingDriver.get(link)
+
+    try:
+        showUnavailable = listingDriver.find_element(By.CSS_SELECTOR, "button.js-showUnavailableFloorPlansButton")
+        showUnavailable.click()
+    except Exception:
+        pass
 
     # Address
     address = listingDriver.find_element(By.CLASS_NAME, "propertyAddressContainer").text
@@ -54,11 +61,17 @@ for link in urls:
     addressParts = [p.strip() for p in parts if p.strip() != "Property Website"]
     address = ' '.join(addressParts)
 
-    addressPieces = address.split(",")
-    street = addressPieces[0].strip()
-    city = addressPieces[1].strip()
+    addressParts = address.strip().split(",")
 
-    stateZip = addressPieces[2].strip().split(" ")
+    if len(addressParts) > 3:
+        continue
+
+    streetParts = addressParts[0].strip().split("Unit")
+    street = streetParts[0].strip()
+
+    city = addressParts[1].strip()
+
+    stateZip = addressParts[2].strip().split(" ")
 
     state = stateZip[0].strip()
     zipcode = stateZip[1].strip()
@@ -66,13 +79,17 @@ for link in urls:
 
 
     # Check if several units or single property
-    isSeveralListings = 0
+    isSeveralListings = None
     unitBar = None
 
     try: 
-        unitBar = listingDriver.find_element(By.ID, "pricingView")
-        isSeveralListings = 1
+        unitBar = listingDriver.find_element(By.CSS_SELECTOR, "div#pricingView")
     except Exception:
+        pass
+
+    if unitBar:
+        isSeveralListings = 1
+    else:
         isSeveralListings = 0
 
 
@@ -98,12 +115,18 @@ for link in urls:
                 rent = unit.find_element(By.CSS_SELECTOR, "div.pricingColumn.column span:not(.screenReaderOnly)").text.strip()
                 rent = rent.replace("$", "")
                 rent = rent.replace(",", "")
-                rent = int(rent)
+                try:
+                    rent = int(rent)
+                except ValueError:
+                    rent = None
                 
                 # SqFt
                 sqft = unit.find_element(By.CSS_SELECTOR, "div.sqftColumn.column span:not(.screenReaderOnly)").text.strip()
                 sqft = sqft.replace(",", "")
-                sqft = int(sqft)
+                try:
+                    sqft = int(sqft)
+                except ValueError:
+                    sqft = None
 
                 # Bedrooms
                 bedrooms = detailParts[0].strip()
@@ -111,17 +134,23 @@ for link in urls:
                     bedrooms = 0
                 else:
                     bedroomSplit = bedrooms.split(" ")
-                    bedrooms = int(bedroomSplit[0])
+                    try:
+                        bedrooms = float(bedroomSplit[0])
+                    except ValueError:
+                        bedrooms = None
 
                 # Bathroom
                 bathrooms = detailParts[1].strip()
                 bathroomSplit = bathrooms.split(" ")
-                bathrooms = int(bathroomSplit[0])
+                try:
+                    bathrooms = float(bathroomSplit[0])
+                except ValueError:
+                    bathrooms = None
                 
                 
                 # Available to Rent
                 available = unit.find_element(By.CSS_SELECTOR, "div.availableColumn.column span:not(.screenReaderOnly)").text.strip()
-                if available.lower == "now":
+                if available.lower == "now" or available.lower == "available now":
                     available = 1
                 else:
                     available = 0
@@ -131,71 +160,90 @@ for link in urls:
                 if singleListing not in listingData:
                     listingData.append(singleListing)
 
-                listingDriver.quit()
-                
+
 
     # Individual Houses
-    if isSeveralListings == 0:
+    elif isSeveralListings == 0:
 
-    # No specific unit number since whole property 
-        unitNum = ""
+        # Check if contains unit number
+        try:
+            unitNum = streetParts[1].strip()
+        except Exception:
+            pass
 
-    # Rent Cost
-    rentText = listingDriver.find_element(By.XPATH, "(//*[contains(text(), '$')])[1]").text.strip()
-    rentText = rentText.replace("$", "").replace(",", "")
-    rentText = rentText.split("-")[0].strip()
-    rent = int(rentText)
+        # Rent Cost
+        rentContainer  = listingDriver.find_element(By.CSS_SELECTOR, "div#propertyNameRow.propertyNameRow")
+        rentText = rentContainer.text
 
-    # SqFt
-    sqftText = listingDriver.find_element(
-        By.XPATH,
-        "(//*[contains(text(), 'sqft') or contains(text(), 'Sq Ft')])[1]"
-    ).text
-    sqftText = sqftText.replace(",", "")
-    sqftParts = sqftText.split(" ")
-    sqft = int(sqftParts[0])
+        unwantedText = rentContainer.find_element(By.CSS_SELECTOR, "span.display-name-caption").text
+        rentText = rentText.replace(unwantedText, "").strip()
 
-    # Bedrooms
-    bedsText = listingDriver.find_element(
-        By.XPATH,
-        "(//*[contains(text(), 'Bed') or contains(text(), 'Studio')])[1]"
-    ).text.strip()
-    if "Studio" in bedsText:
-        bedrooms = 0
-    else:
-        bedParts = bedsText.split(" ")
-        bedrooms = int(bedParts[0])
+        rentText = rentText.replace("$", "")
+        rentText = rentText.replace(",", "")
+        try:
+            rent = int(rentText)
+        except ValueError:
+            rent = None
 
-    # Bathrooms
-    bathsText = listingDriver.find_element(
-        By.XPATH,
-        "(//*[contains(text(), 'Bath')])[1]"
-    ).text.strip()
-    bathParts = bathsText.split(" ")
-    bathrooms = int(bathParts[0])
+        details = listingDriver.find_element(By.CSS_SELECTOR, "div.priceBedRangeInfoContainer")
 
-    # Available to Rent
-    availableText = listingDriver.find_element(
-        By.XPATH,
-        "(//*[contains(text(), 'Available') or contains(text(), 'Now')])[1]"
-    ).text.strip()
-    if availableText.lower() == "now" or "available now" in availableText.lower():
-        available = 1
-    else:
-        available = 0
+        detailParts = details.find_elements(By.CSS_SELECTOR, "li.column")
 
-    #Append to data array 
-    singleListing = [street, city, state, zipcode, unitNum, rent, sqft, bedrooms, bathrooms, available]
-    if singleListing not in listingData:
-        listingData.append(singleListing)
-
-    listingDriver.quit()
+        for section in detailParts:
+            if section.find_element(By.CSS_SELECTOR, "p.rentInfoLabel").text == "Square Feet":
+                sqftText = section.find_element(By.CSS_SELECTOR, "p.rentInfoDetail").text.strip()
+            if section.find_element(By.CSS_SELECTOR, "p.rentInfoLabel").text == "Bedrooms":
+                bedrooms = section.find_element(By.CSS_SELECTOR, "p.rentInfoDetail").text.strip()
+            if section.find_element(By.CSS_SELECTOR, "p.rentInfoLabel").text == "Bathrooms":
+                bathrooms = section.find_element(By.CSS_SELECTOR, "p.rentInfoDetail").text.strip()
+            if section.find_element(By.CSS_SELECTOR, "p.rentInfoLabel").text == "Available":
+                available = section.find_element(By.CSS_SELECTOR, "p.rentInfoDetail").text.strip()
 
 
+        # SqFt
+        sqftText = sqftText.replace(",", "")
+        sqftParts = sqftText.split(" ")
+        try:
+            sqft = int(sqftParts[0])
+        except ValueError:
+            sqft = None
+
+        # Bedrooms
+        try:
+            bedrooms = float(bedrooms)
+        except ValueError:
+            bedrooms = None
+
+        # Bathrooms
+        try:
+            bathrooms = float(bathrooms)
+        except ValueError:
+            bathrooms = None
+
+        # Available to Rent
+        if available.lower == "now" or available.lower == "available now":
+            available = 1
+        else:
+            available = 0
+
+        #Append to data array 
+        singleListing = [street, city, state, zipcode, unitNum, rent, sqft, bedrooms, bathrooms, available]
+        if singleListing not in listingData:
+            listingData.append(singleListing)
+
+
+listingDriver.quit()
 
 print("Finished with scraping")
 
-pathText = input("Enter the path of the destination file: ")
+while True:
+    pathText = input("Enter the path of the destination file: ")
+
+    if pathText.endswith(".csv"):
+        break
+    else:
+        print("File destination does not end with .csv \n Retrying...")
+
 
 fileName = Path(pathText)
 fileName.parent.mkdir(parents=True, exist_ok=True)
