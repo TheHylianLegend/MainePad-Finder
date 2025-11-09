@@ -1,6 +1,7 @@
 import time
 import os
 import csv
+import re
 from pathlib import Path
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -9,14 +10,39 @@ from selenium.webdriver.support import expected_conditions as EC
 os.environ['MOZ_HEADLESS'] = '1'
 
 driver = webdriver.Firefox()
+
+oldData = []
+newData = []
+
+while True:
+    pathText = input("Enter the path of the destination file: ")
+
+    if pathText.endswith(".csv"):
+        break
+    else:
+        print("File destination does not end with .csv \n Retrying...")
+
+fileName = Path(pathText)
+fileName.parent.mkdir(parents=True, exist_ok=True)
+
+with fileName.open("r", newline="", encoding="utf-8") as csvFile:
+    reader = csv.reader(csvFile)
+    for row in reader:
+        if row[1] == "Street":
+            continue
+        else:
+            oldData.append(row)
+        
+
+
 search = input("Enter url to search listings from: ")
 driver.get(search)
 
 urls = []
 next = None
 
-listingData = []
-listingData.append(["Street", "City", "State", "Zipcode", "Unit", "Rent", "SqFt", "Bedrooms", "Bathrooms", "Available"])
+if not oldData:
+    newData.append(["Street", "City", "State", "Zipcode", "Unit", "Rent", "SqFt", "Bedrooms", "Bathrooms", "Available"])
 
 
 
@@ -28,7 +54,6 @@ while True:
         url = listing.get_attribute("href")
         if url and url not in urls:
             urls.append(url)
-            print("Found", url)
 
     try:
         next = driver.find_element(By.CLASS_NAME, "next")
@@ -45,7 +70,6 @@ listingDriver = webdriver.Firefox()
 
 
 for link in urls:
-    print(link)
     listingDriver.get(link)
 
     try:
@@ -60,6 +84,8 @@ for link in urls:
     parts = address.split("\n")
     addressParts = [p.strip() for p in parts if p.strip() != "Property Website"]
     address = ' '.join(addressParts)
+
+    address = re.sub(r"(\d{5}).*$", r"\1", address)
 
     addressParts = address.strip().split(",")
 
@@ -159,8 +185,8 @@ for link in urls:
                 singleListing = [street, city, state, zipcode, unitNum, rent, sqft, bedrooms, bathrooms, available]
                 if not singleListing[4] and not singleListing[5] and not singleListing[6]:
                     continue
-                if singleListing not in listingData:
-                    listingData.append(singleListing)
+                if singleListing not in newData and singleListing not in oldData:
+                    newData.append(singleListing)
 
 
 
@@ -232,28 +258,16 @@ for link in urls:
         singleListing = [street, city, state, zipcode, unitNum, rent, sqft, bedrooms, bathrooms, available]
         if not singleListing[4] and not singleListing[5] and not singleListing[6]:
             continue
-        if singleListing not in listingData:
-            listingData.append(singleListing)
+        if singleListing not in newData and singleListing not in oldData:
+            newData.append(singleListing)
 
 
 listingDriver.quit()
 
 print("Finished with scraping")
 
-while True:
-    pathText = input("Enter the path of the destination file: ")
-
-    if pathText.endswith(".csv"):
-        break
-    else:
-        print("File destination does not end with .csv \n Retrying...")
-
-
-fileName = Path(pathText)
-fileName.parent.mkdir(parents=True, exist_ok=True)
-
-with fileName.open("w", newline="", encoding="utf-8") as csvFile:
+with fileName.open("a", newline="", encoding="utf-8") as csvFile:
     writer = csv.writer(csvFile)
-    writer.writerows(listingData)
+    writer.writerows(newData)
 
 print("Finished writing to CSV file")
