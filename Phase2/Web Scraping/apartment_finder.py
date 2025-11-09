@@ -134,21 +134,64 @@ for link in urls:
                 listingDriver.quit()
                 
 
-
     # Individual Houses
     if isSeveralListings == 0:
 
-        # Rent Cost
+    # No specific unit number since whole property 
+        unitNum = ""
 
-        # Bathrooms
+    # Rent Cost
+    rentText = listingDriver.find_element(By.XPATH, "(//*[contains(text(), '$')])[1]").text.strip()
+    rentText = rentText.replace("$", "").replace(",", "")
+    rentText = rentText.split("-")[0].strip()
+    rent = int(rentText)
 
-        # Bedrooms
+    # SqFt
+    sqftText = listingDriver.find_element(
+        By.XPATH,
+        "(//*[contains(text(), 'sqft') or contains(text(), 'Sq Ft')])[1]"
+    ).text
+    sqftText = sqftText.replace(",", "")
+    sqftParts = sqftText.split(" ")
+    sqft = int(sqftParts[0])
 
-        # Available to Rent
+    # Bedrooms
+    bedsText = listingDriver.find_element(
+        By.XPATH,
+        "(//*[contains(text(), 'Bed') or contains(text(), 'Studio')])[1]"
+    ).text.strip()
+    if "Studio" in bedsText:
+        bedrooms = 0
+    else:
+        bedParts = bedsText.split(" ")
+        bedrooms = int(bedParts[0])
+
+    # Bathrooms
+    bathsText = listingDriver.find_element(
+        By.XPATH,
+        "(//*[contains(text(), 'Bath')])[1]"
+    ).text.strip()
+    bathParts = bathsText.split(" ")
+    bathrooms = int(bathParts[0])
+
+    # Available to Rent
+    availableText = listingDriver.find_element(
+        By.XPATH,
+        "(//*[contains(text(), 'Available') or contains(text(), 'Now')])[1]"
+    ).text.strip()
+    if availableText.lower() == "now" or "available now" in availableText.lower():
+        available = 1
+    else:
+        available = 0
+
+    #Append to data array 
+    singleListing = [street, city, state, zipcode, unitNum, rent, sqft, bedrooms, bathrooms, available]
+    if singleListing not in listingData:
+        listingData.append(singleListing)
+
+    listingDriver.quit()
 
 
-
-        listingDriver.quit()
 
 print("Finished with scraping")
 
