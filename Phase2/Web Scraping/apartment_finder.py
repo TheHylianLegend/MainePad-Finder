@@ -102,8 +102,6 @@ for link in urls:
     state = stateZip[0].strip()
     zipcode = stateZip[1].strip()
 
-
-
     # Check if several units or single property
     isSeveralListings = None
     unitBar = None
