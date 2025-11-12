@@ -23,13 +23,13 @@ Yunlong: Data scraping and documentation (Zillow.com)
   
 Sample Data and Data Cleaning Documentation  
 Deadline:  11/11/25  
-Ashley: Apartments.com sample data and data cleaning documentation  
-Jeffrey: Zillow.com sample data and data cleaning documentation  
-Sophia: Apartments.com sample data and data cleaning documentation  
-Yunlong: Zillow.com sample data and data cleaning documentation  
+Ashley: Apartments.com sample data
+Jeffrey: Zillow.com sample data
+Sophia: Apartments.com data cleaning documentation  
+Yunlong: Zillow.com data cleaning documentation  
   
 Query Optimization Analysis  
-Deadline:  11/11/25  
+Deadline:  11/13/25  
 All working together  
   
 Comprehensive README file  
