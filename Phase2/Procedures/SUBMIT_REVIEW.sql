@@ -1,3 +1,5 @@
+DELIMITER $$
+
 CREATE PROCEDURE SUBMIT_REVIEW(
 	-- Variables included 
 	IN p_USER_ID INT UNSIGNED ,
