@@ -1,3 +1,5 @@
+DELIMITER $$
+
 CREATE PROCEDURE SEND_MESSAGE(
   -- Variables in use
   IN  p_SENDER_ID INT,
