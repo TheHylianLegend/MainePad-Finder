@@ -16,10 +16,10 @@ Yunlong: Add property procedure
 
 Data Scraping Scripts and Documentation  
 Deadline: 11/8/25  
-Ashley: Data scraping and documentation (Apartments.com)  
-Jeffrey: Data scraping and documentation (Zillow.com)  
-Sophia: Data scraping and documentation (Apartments.com)  
-Yunlong: Data scraping and documentation (Zillow.com)  
+Ashley: Data scraping (multi-unit properties) and reviewed documentation (Apartments.com)  
+Jeffrey: Data scraping and reviewed documentation (Zillow.com)  
+Sophia: Data scraping (single-unit properties) and documentation (Apartments.com)  
+Yunlong: Documentation (Zillow.com)  
   
 Sample Data and Data Cleaning Documentation  
 Deadline:  11/11/25  
