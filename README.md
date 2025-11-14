@@ -11,7 +11,7 @@
 ## Running MySQL
 
 ### Overview
-The Schema folder contains the MainePad Finder MySQL scripts for creating database schema
+Use the Schema, Procedure and Function folders to 
 
 ### Installation and Requirements 
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/8.0.html) installed 
@@ -47,4 +47,12 @@ The Schema folder contains the MainePad Finder MySQL scripts for creating databa
 ### Query Files 
 
 ### How To Run MySQL Workbench
-- Open **MySQl Workbench** and connect to your local server  
+1. Open **MySQl Workbench** and connect to your local server 
+2. Create a database:
+   ```sql
+   CREATE DATABASE maine_pad_finder:
+   USE maine_pad_finder;
+   ```
+3. For every schema in the schema folder, go to **File -> Open SQL Script**
+4. Select each file and upload
+5. 
