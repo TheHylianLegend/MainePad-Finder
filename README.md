@@ -5,7 +5,7 @@
 - [Database Operations](https://github.com/TheHylianLegend/MainePad-Finder/tree/31b1e6cc412722f1852190fb40a6aed6102b8990/Phase2/Database%20Operations) 
 - [Functions](https://github.com/TheHylianLegend/MainePad-Finder/tree/262c45c812d33b4845b1f611651738d45e087525/Phase2/Functions)
 - [Procedures](https://github.com/TheHylianLegend/MainePad-Finder/tree/262c45c812d33b4845b1f611651738d45e087525/Phase2/Procedures)
-- [Schema](./Schema/)
+- [Schema](https://github.com/TheHylianLegend/MainePad-Finder/tree/d2591ae08ed2a89a19d25773ed49a6cad05f5191/Phase2/Schema)
 - [Web Scrapping](https://github.com/TheHylianLegend/MainePad-Finder/tree/48905f4f5baf0d539872c8325e53fd940f5e15be/Phase2/Web%20Scraping)
 
 ## Running MySQL
