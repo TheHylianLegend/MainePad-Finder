@@ -19,7 +19,8 @@ The Schema folder contains the MainePad Finder MySQL scripts for creating databa
 - A MySQl account that allows you to databases and tables 
 
 ### Files
-```sql - ADDRESS.sql
+```sql
+- ADDRESS.sql
 - HAS_PREFERENCE.sql
 - LANDLORD.sql
 - MESSAGE.sql
@@ -32,4 +33,7 @@ The Schema folder contains the MainePad Finder MySQL scripts for creating databa
 - RENTER_SETTINGS.sql
 - REVIEW.sql
 - USERS.sql
+```
 
+### How To Run MySQL Workbench
+- Open **MySQl Workbench** and connect to your local server  
