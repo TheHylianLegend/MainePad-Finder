@@ -3,7 +3,7 @@
 ## Table of Contents
 ### [Phase 2](https://github.com/TheHylianLegend/MainePad-Finder/tree/31b1e6cc412722f1852190fb40a6aed6102b8990/Phase2)
 - [Database Operations](https://github.com/TheHylianLegend/MainePad-Finder/tree/31b1e6cc412722f1852190fb40a6aed6102b8990/Phase2/Database%20Operations) 
-- [Functions](./Functions/)
+- [Functions](https://github.com/TheHylianLegend/MainePad-Finder/tree/262c45c812d33b4845b1f611651738d45e087525/Phase2/Functions)
 - [Procedures](./Phase%202/Procedures/)
 - [Schema](./Schema/)
 - [Web Scrapping](./Wen%20Scrapping/)
