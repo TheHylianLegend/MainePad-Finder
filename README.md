@@ -4,7 +4,7 @@
 ### [Phase 2](./Phase%202/)
 - [Database Operations](./Database%20Operations/)
 - [Functions](./Functions/)
-- [Procedures](./Procedures/)
+- [Procedures](./Phase%202/Procedures/)
 - [Schema](./Schema/)
 - [Web Scrapping](./Wen%20Scrapping/)
 
