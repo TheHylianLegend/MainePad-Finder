@@ -8,7 +8,7 @@
 - [Schema](./Schema/)
 - [Web Scrapping](https://github.com/TheHylianLegend/MainePad-Finder/tree/48905f4f5baf0d539872c8325e53fd940f5e15be/Phase2/Web%20Scraping)
 
-## Running MySQL Schemas 
+## Running MySQL
 
 ### Overview
 The Schema folder contains the MainePad Finder MySQL scripts for creating database schema
@@ -18,7 +18,7 @@ The Schema folder contains the MainePad Finder MySQL scripts for creating databa
 - [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
 - A MySQl account that allows you to databases and tables 
 
-### Files
+### Schema Files
 ```sql
 - ADDRESS.sql
 - HAS_PREFERENCE.sql
@@ -34,6 +34,17 @@ The Schema folder contains the MainePad Finder MySQL scripts for creating databa
 - REVIEW.sql
 - USERS.sql
 ```
+### Procedure and Function Files 
+```sql
+- ADD_PROPERTY.sql
+- INSERT_MATCH.sql
+- INSERT_USER.sql
+- SEND_MESSAGE.sql
+- SEND_NOTIFICATION.sql
+- SUBMIT_REVIEW.sql
+- GET_AVG_RATING.sql
+```
+### Query Files 
 
 ### How To Run MySQL Workbench
 - Open **MySQl Workbench** and connect to your local server  
