@@ -1,4 +1,4 @@
--- TITLE: Fosgate_
+-- TITLE: Fosgate_FIND_PROPS_BELOW_RENT_AMT
 -- AUTHOR: Jeffrey Fosgate
 -- DATE OF GITHUB COMMIT: 11/14/2025
 -- A simple stored procedure for retrieving all property IDs whose rent costs are below a certain given amount.
