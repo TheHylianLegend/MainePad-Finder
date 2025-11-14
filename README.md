@@ -13,10 +13,10 @@
 ### Overview
 The Schema folder contains the MainePad Finder MySQL scripts for creating database schema
 
-### Installation
+### Installation and Requirements 
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/8.0.html) installed 
 - [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
-- A MySQL account that allows you to databases and tables 
+- A MySQL account that allows you to create databases and tables 
 
 ### Schema Files
 ```sql
