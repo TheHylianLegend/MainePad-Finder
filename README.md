@@ -2,7 +2,7 @@
 
 ## Table of Contents
 ### [Phase 2](https://github.com/TheHylianLegend/MainePad-Finder/tree/31b1e6cc412722f1852190fb40a6aed6102b8990/Phase2)
-- [Database Operations](./Database%20Operations/)
+- [Database Operations](https://github.com/TheHylianLegend/MainePad-Finder/tree/31b1e6cc412722f1852190fb40a6aed6102b8990/Phase2/Database%20Operations) 
 - [Functions](./Functions/)
 - [Procedures](./Phase%202/Procedures/)
 - [Schema](./Schema/)
