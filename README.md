@@ -12,7 +12,7 @@
 ## Running MySQL Files
 
 ### Overview
-Create database using designated MySQL files from "Functions", "Procedures" and "Schema" folders. Verify your database was set up correct by using an example query from the "Queries" folder. 
+Create database using designated MySQL files from "Functions", "Procedures" and "Schema" folders. Verify your database is functioning accordingly by using an example query from the "Queries" folder. 
 
 ### Installation and Requirements 
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/8.0.html) installed 
