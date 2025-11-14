@@ -8,10 +8,10 @@
 - [Schema](https://github.com/TheHylianLegend/MainePad-Finder/tree/d2591ae08ed2a89a19d25773ed49a6cad05f5191/Phase2/Schema)
 - [Web Scrapping](https://github.com/TheHylianLegend/MainePad-Finder/tree/48905f4f5baf0d539872c8325e53fd940f5e15be/Phase2/Web%20Scraping)
 
-## Running MySQL
+## Running MySQL Files
 
 ### Overview
-Use the Schema, Procedure and Function folders to 
+Create database using designated MySQL files from "Functions", "Procedures" and "Schema" folders. 
 
 ### Installation and Requirements 
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/8.0.html) installed 
