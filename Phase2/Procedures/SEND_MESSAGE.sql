@@ -1,7 +1,7 @@
 -- TITLE: SEND_MESSAGE
--- AUTHOR: SOPHIA PRIOLA 
--- MESSAGE SEND PROCEDURE BETWEEN TWO USERS
--- THERE CANNOT BE MULTIPLE USERS IN MESSAGE THREADS
+-- AUTHOR: Sophia Priola
+-- SEND_MESSAGE is a procedure that has a one-to-one relationship between two users 
+-- The message is timestamped with the current time and marked as unread (IS_READ = 0)
 
 DELIMITER $$
 
