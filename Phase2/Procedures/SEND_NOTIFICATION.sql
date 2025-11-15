@@ -7,7 +7,7 @@ DELIMITER $$
 
 CREATE PROCEDURE SEND_NOTIFICATION (
   -- Variables in use 
-  IN  p_TEXT  VARCHAR(1000)
+  IN  p_TEXT  VARCHAR(1000) -- Text of the notification 
 )
   
 BEGIN
