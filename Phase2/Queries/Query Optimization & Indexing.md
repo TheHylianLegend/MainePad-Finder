@@ -32,7 +32,7 @@ ORDER BY AVG_RATING DESC;
 
 **Why it is less optimial**
 - The inner query is tied to the outer query through P.PROPERTY_ID = R.PROPERTY_ID
-- MySQL may need to probe the REVIEW table once per property, which is more work than necessary
+- MySQL may need to probe the REVIEW table once per property
 
 #### After Optimization: Using JOIN and GROUP BY
 ```sql
