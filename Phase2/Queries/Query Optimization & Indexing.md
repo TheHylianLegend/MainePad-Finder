@@ -22,9 +22,9 @@ Display names are used for searching. For example you can search for users whos 
 - ``INDEX IDX_BIRTHDATE ON USERS(BIRTH_DATE);``
 
 Some queries may filter users by age or birthdate range if it is a roomate preference. Indexing 'BIRTH_DATE' lets MySQL use a range scan on the date column, which is much more efficient than scanning all users when we need to select only a subset by birthdate.
-- ``INDEX IDX_RENT ON PROPERTY(RENT_COST);``
+- ``INDEX IDX_RENT_ADDR ON PROPERTY(RENT_COST, ADDR_ID, PROPERTY_ID);``
 
-Our application supports queries that filter properties by a maximum or minimum rent amount. Without an index, MySQL would need to scan every property to check its rent. The 'IDX_RENT' index allows MySQL to perform a scan based on a range on RENT_COST, reading only the relevant portion of the index instead of the entire table.
+Our application supports queries that filter properties by a maximum or minimum rent amount. Without an index, MySQL would need to scan every property to check its rent. The 'IDX_RENT_ADDR' index allows MySQL to perform a scan based on a range on RENT_COST, reading only the relevant portion of the index instead of the entire table. Including 'ADDR_ID' and 'PROPERTY_ID' allows queries to access these often used values without having to read the full table row, which increases performance.
 - ``INDEX IDX_NOTIFICATION_TIMESTAMP ON NOTIFICATION(TIME_STAMP);``
 
 Indexing TIME_STAMP helps MySQL efficiently find the most recent notifications for a user without scanning all older rows, which is important as the amount of notifications grow.
@@ -156,6 +156,12 @@ ORDER BY NumProperties DESC
 **What changed**
 - You start from PROPERTY, filter once by RENT_COST, JOIN to ADDRESS and let GROUP BY handle the three previous sub queries.
 - The optimized version makes sure it scans the filtered PROPERTY rows once and computes COUNT/MIN/MAX in a single GROUP BY step.
+
+#### Indexing 
+```sql
+CREATE INDEX IDX_RENT_ADDR ON PROPERTY(RENT_COST, ADDR_ID, PROPERTY_ID);
+```
+We used the IDX_RENT_ADDR index to allow for fast searching by RENT_COST, with the most likely associated values included to reduce the time needed for reading full table rows.
 
 
 
