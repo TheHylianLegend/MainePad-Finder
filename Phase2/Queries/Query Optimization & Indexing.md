@@ -105,7 +105,7 @@ We use the IDX_CITY index on ADDRESS(CITY) because this query always filters by 
 - ADDRESS.sql
 - PROPERTY.sql
 ```
-### Before Optimization 
+#### Before Optimization 
 ```sql
 EXPLAIN ANALYZE
 SELECT
@@ -141,6 +141,21 @@ ORDER BY NumProperties DESC;
 - Each subquery is correlated with the outer query via p.ADDR_ID = a.ADDR_ID. Correlated queries make it harder to choose an efficient single plan.
 
 #### After Optimization
+```sql
+EXPLAIN ANALYZE
+SELECT a.City, a.State_Code, 
+       COUNT(*) AS NumProperties,
+       MIN(p.RENT_COST) AS MinRent,
+       MAX(p.RENT_COST) AS MaxRent
+FROM PROPERTY p
+JOIN ADDRESS a ON p.ADDR_ID = a.ADDR_ID
+WHERE p.RENT_COST BETWEEN 2500 AND 2600
+GROUP BY a.City, a.State_Code
+ORDER BY NumProperties DESC
+```
+**What changed**
+- You start from PROPERTY, filter once by RENT_COST, JOIN to ADDRESS and let GROUP BY handle the three previous sub queries.
+- The optimized version makes sure it scans the filtered PROPERTY rows once and computes COUNT/MIN/MAX in a single GROUP BY step.
 
 
 
