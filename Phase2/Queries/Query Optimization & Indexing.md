@@ -62,6 +62,8 @@ JOIN ADDRESS AS A
 WHERE A.CITY = 'Portland'
 ORDER BY AVG_RATING DESC;
 ```
+Duration: 0.00139550 seconds
+
 **What it does** 
 - For each property row in Portland, it runs a separate SELECT on REVIEW to compute AVG(STARS)
 - On a small dataset, this is fine. On a larger dataset, it can be slower because MySQL keeps re-running the inner query
@@ -87,6 +89,8 @@ GROUP BY
     A.CITY
 ORDER BY AVG_RATING DESC;
 ```
+Duration: 0.00057875 seconds
+
 **What changed**
 - We join REVIEW once and let MySQL compute AVG(R.STARS) using GROUP BY.
 - MySQL can plan this as a single grouped query instead of outer loop + many inner subqueries.
@@ -133,6 +137,8 @@ SELECT
 FROM ADDRESS a
 ORDER BY NumProperties DESC;
 ```
+Duration: 0.00138375 seconds
+
 **What it does** 
 - runs three subqueries to get how many properties at that address are in the rent range, the minimum and maximum. 
 
@@ -153,6 +159,8 @@ WHERE p.RENT_COST BETWEEN 2500 AND 2600
 GROUP BY a.City, a.State_Code
 ORDER BY NumProperties DESC
 ```
+Duration: 0.00038050 seconds
+
 **What changed**
 - You start from PROPERTY, filter once by RENT_COST, JOIN to ADDRESS and let GROUP BY handle the three previous sub queries.
 - The optimized version makes sure it scans the filtered PROPERTY rows once and computes COUNT/MIN/MAX in a single GROUP BY step.
