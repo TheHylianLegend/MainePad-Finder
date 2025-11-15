@@ -1,7 +1,6 @@
 -- TITLE: FIND_TOP_RATED_PROPS_IN_CITY
 -- AUTHOR: Sophia Priola
 -- Before optimization, find the top rated properties in a city and order them from greatest to least
-EXPLAIN ANALYZE
 SELECT 
     P.PROPERTY_ID,
     A.CITY,
@@ -17,7 +16,6 @@ WHERE A.CITY = 'Portland'
 ORDER BY AVG_RATING DESC;
 
 -- After optimization, find the top rated properties in a city and order them from greatest to least
-EXPLAIN ANALYZE
 SELECT 
     P.PROPERTY_ID,
     A.CITY,

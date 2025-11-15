@@ -1,7 +1,6 @@
 -- Before optimization
-EXPLAIN ANALYZE
-SELECT a.City, a.State_Code
-
+SET sql_mode = (SELECT REPLACE(@@sql_mode, 'ONLY_FULL_GROUP_BY', ''));
+SELECT a.City, a.State_Code,
        (
        SELECT COUNT(*)
        FROM PROPERTY p
@@ -21,10 +20,10 @@ SELECT a.City, a.State_Code
        AND p.RENT_COST BETWEEN 2500 AND 2600
        ) AS MaxRent 
 FROM ADDRESS a
+GROUP BY a.City, a.State_Code
 ORDER BY NumProperties DESC;
-
+SET SESSION sql_mode = CONCAT(@@sql_mode, ',ONLY_FULL_GROUP_BY');
 -- After optimization
-EXPLAIN ANALYZE
 SELECT a.City, a.State_Code, 
        COUNT(*) AS NumProperties,
        MIN(p.RENT_COST) AS MinRent,
