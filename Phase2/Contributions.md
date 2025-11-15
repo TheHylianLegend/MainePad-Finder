@@ -31,7 +31,7 @@ Additionally created the index creation script
 ### Query Optimization Analysis  
 *Deadline:  11/13/25*  
 - Sophia: Optimized FIND_TOP_PROPS_IN_CITY.sql Query and Query_Optimization_and_Indexing.md
-- Ashley: Optimized FIND_GENDER.sql Query 
+- Ashley: Optimized TEST_RENT_ADDR_PROPERTY.sql Query 
   
 ### Comprehensive README file  
 *Deadline:  11/13/25*  
