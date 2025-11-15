@@ -72,3 +72,66 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 ```
 2. **Procedure and Function Files**
 3. **Query Files**
+
+## Web Scraping
+
+### Overview
+
+Several Python-based web scraping scripts have been designed in order to populate the _MainePad Finder_ application with pertinent real-world address and property data. `apartment_finder.py` (designed by Sophia Priola and Ashley Pike) retrieves property information from Apartments.com, while `Fosgate_ZillowScraper.py` (designed by Jeffrey Fosgate and Yunlong Li) retrieves property information from Zillow. Property and address information shall be returned in a comma-separated variable (CSV) format. See _Web Scraper Documentation_ files (mentioned below) for additional details on each individual web scraper design.
+
+### Files
+
+All files pertaining to _MainePad Finder_ web scraping functionalities can be found within the directory `MainePad-Finder/Phase2/Web Scraping`. The files contained within this directory are further differentiated below.
+
+#### Web Scraping Scripts
+
+There are two Python scripts included which provide the primary web scraping functionality needed for retrieving real-world sample address and property data. These scripts include:
+
+```
+- apartment_finder.py
+- Fosgate_ZillowScraper.py
+```
+
+#### Sample Data
+
+Several CSV files have already been provided, showcasing some sample data retrieved during tests of the web scraper conducted by the _MainePad Finder_ development team. This sample data is provided by:
+
+```
+- apartments-properties.csv
+- zillow-properties.csv
+```
+
+`apartments-properties.csv` provides the output received from `apartment_finder.py` (Apartments.com), while `zillow-properties.csv` provides the output received from `Fosgate_ZillowScraper.py` (Zillow).
+
+#### Web Scraper Documentation
+
+Documentation has been provided to further elaborate upon the design of each web scraper and the steps taken to sanitize the data retrieved. This documentation is provided by:
+
+```
+- Data_Scraping_Documentation__Zillow.pdf
+- Web_Scraping_Documentation_Apartments.com.pdf
+- Data_Cleaning_Documentation_Apartments.com.pdf
+```
+
+### Running Web Scraping Scripts
+
+#### Installations and Requirements
+
+**[An installation of Python](https://www.python.org/downloads/)** is required for running both web scraping scripts. **A release of Python at or above release version 3.5 is highly recommended** for supporting all libraries used within the scripts.
+
+Once Python has been installed on your system, the following Python utility and library downloads will be required. Commands for installation provided here are assumed to be executed within your Python version's current directory.
+
+- **`pip`**: `python get-pip.py`
+- **`BeautifulSoup4`**: `python -m pip install bs4`
+- **`Selenium`**: `python -m pip install selenium`
+
+#### Script Execution
+
+Both web scraping files can be executed identically to any other basic Python file. Assuming that your Python version and your web scraper of choice are located within the same directory, this can be done with the commands
+
+```python
+python Fosgate_ZillowScraper.py
+python apartment_finder.py
+```
+
+See the respective documentation provided for both web scrapers for additional information on the precise directory and format in which the resulting property output will be provided.
