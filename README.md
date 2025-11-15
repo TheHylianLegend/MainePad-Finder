@@ -12,34 +12,40 @@ This repo contains the MySQL schema, stored procedures, functions, example queri
 - [Schema](https://github.com/TheHylianLegend/MainePad-Finder/tree/d2591ae08ed2a89a19d25773ed49a6cad05f5191/Phase2/Schema)
 - [Web Scrapping](https://github.com/TheHylianLegend/MainePad-Finder/tree/48905f4f5baf0d539872c8325e53fd940f5e15be/Phase2/Web%20Scraping)
 ### [Running MySQL Files](#running-mysql-files)
-
+### [Web Scraping Scripts](https://github.com/TheHylianLegend/MainePad-Finder/blob/main/README.md#web-scraping-scripts-1)
 ## Running MySQL Files
 
 ### Overview
-Create database using designated MySQL files from "Functions", "Procedures" and "Schema" folders. Verify your database is functioning accordingly by using an example query from the "Queries" folder. 
+Create database using designated MySQL files from "Database Operations", "Procedures" and "Functions" folders. Verify your database is functioning accordingly by using an example query from the "Queries" folder. 
 
 ### Installation and Requirements 
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/8.0.html) installed 
 - [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
 - A MySQL account that allows you to create databases and tables 
 
-### Schema Files
+### How To Run MySQL Workbench
+1. Open **MySQL Workbench** and connect to your local server
+2. Create database by pasting:
 ```sql
-- ADDRESS.sql
-- HAS_PREFERENCE.sql
-- LANDLORD.sql
-- MESSAGE.sql
-- NOTIFICATION.sql
-- NOTIFIES.sql
-- PROPERTY.sql
-- RENTER.sql
-- RENTER_MATCH.sql
-- RENTER_PREFERENCES.sql
-- RENTER_SETTINGS.sql
-- REVIEW.sql
-- USERS.sql
+CREATE DATABASE IF NOT EXISTS MAINEPAD
+  DEFAULT CHARACTER SET utf8mb4
+  DEFAULT COLLATE utf8mb4_0900_ai_ci;
+
+USE MAINEPAD;
 ```
-### Procedure and Function Files 
+3. For every filed in the designated "Files Order" below, go to **File -> Open SQL Script**
+4. Select each file one at a time and upload
+5. Click the lightning bolt to execute 
+6. To verify the database is running correctly, upload and run queries from the "queries" file
+
+### Files Order
+1. **Database Operations**
+```sql
+- Create_Database.sql
+- ALL_TABLE.sql
+- ADD_INDEXES.sql
+```
+2. **Procedure and Function Files**
 ```sql
 - ADD_PROPERTY.sql
 - INSERT_MATCH.sql
@@ -49,31 +55,13 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 - SUBMIT_REVIEW.sql
 - GET_AVG_RATING.sql
 ```
-### Query Files 
+3. **Query Files**
 ```sql
-- FIND_GENDER.sql
 - FIND_PROPS_BELOW_RENT_AMT.sql
 - FIND_TOP_RATED_PROPS_IN_CITY.sql
 ```
-### How To Run MySQL Workbench
-1. Open **MySQL Workbench** and connect to your local server 
-2. For every schema in the schema folder, go to **File -> Open SQL Script**
-3. Select each file in the **Files Order** and upload 
-4. Click the lightning bolt to execute and follow **Files Order**
-5. Repeat this process for procedures and functions
-6. To verify the database is running correctly, upload and run queries from the "queries" file
 
-### Files Order
-1. **Database files**
-```sql
-- Create_DATABASE.SQL
-- ALL_TABLE.sql
-- ADD_INDEXES.sql
-```
-2. **Procedure and Function Files**
-3. **Query Files**
-
-## Web Scraping
+## Web Scraping Scripts
 
 ### Overview
 
@@ -135,3 +123,4 @@ python apartment_finder.py
 ```
 
 See the respective documentation provided for both web scrapers for additional information on the precise directory and format in which the resulting property output will be provided.
+
