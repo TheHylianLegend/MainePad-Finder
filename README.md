@@ -36,7 +36,7 @@ USE maine_pad_finder;
 6. Repeat this process for procedures and functions
 7. To verify the database is running correctly, upload and run queries from the "queries" file
 
-### Files Order
+### File Order
 1. **Database Operations**
 ```sql
 - Create_DATABASE.SQL
