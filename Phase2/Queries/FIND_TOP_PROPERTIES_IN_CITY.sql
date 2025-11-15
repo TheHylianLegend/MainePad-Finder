@@ -15,17 +15,22 @@ JOIN ADDRESS AS A
     ON P.ADDR_ID = A.ADDR_ID
 WHERE A.CITY = 'Portland'
 ORDER BY AVG_RATING DESC; -- Orders largest to smallest 
+-- Query runtime: 60.65ms before optimization
 
 -- After optimization, find the top rated properties in a city and order them from largest to smallest 
 SELECT 
     P.PROPERTY_ID,
     A.CITY,
-    AVG(R.RATING) AS AVG_RATING
+    AVG(R.STARS) AS AVG_RATING
 FROM PROPERTY AS P
 JOIN ADDRESS AS A
-    ON A.ADDRESS_ID = P.PROP_ID
-WHERE P.CITY = 'Portland'
+    ON P.ADDR_ID = A.ADDR_ID
+JOIN REVIEW AS R
+    ON R.PROPERTY_ID = P.PROPERTY_ID
+WHERE A.CITY = 'Portland'
 GROUP BY 
     P.PROPERTY_ID,
-    P.CITY
-ORDER BY AVG_RATING DESC; -- Orders by largest to smallest 
+    A.CITY
+ORDER BY AVG_RATING DESC;
+
+-- Query runtime after optimization: 43.55ms
