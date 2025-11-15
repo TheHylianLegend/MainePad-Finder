@@ -1,5 +1,8 @@
 # MainePad-Finder
 
+MainePad-Finder is a housing search application designed for Maine University students.  
+This repo contains the MySQL schema, stored procedures, functions, xample queries used to power the backend database and web scraping.
+
 ## Table of Contents
 ### [Phase 2](https://github.com/TheHylianLegend/MainePad-Finder/tree/31b1e6cc412722f1852190fb40a6aed6102b8990/Phase2)
 - [Database Operations](https://github.com/TheHylianLegend/MainePadFinder/tree/31b1e6cc412722f1852190fb40a6aed6102b8990/Phase2/Database%20Operations) 
@@ -8,6 +11,7 @@
 - [Queries](https://github.com/TheHylianLegend/MainePad-Finder/tree/983ab3f3532497a4c049ce1b2e8e112aa9aff0fc/Phase2/Queries)
 - [Schema](https://github.com/TheHylianLegend/MainePad-Finder/tree/d2591ae08ed2a89a19d25773ed49a6cad05f5191/Phase2/Schema)
 - [Web Scrapping](https://github.com/TheHylianLegend/MainePad-Finder/tree/48905f4f5baf0d539872c8325e53fd940f5e15be/Phase2/Web%20Scraping)
+### [Running MySQL Files](#running-mysql-files)
 
 ## Running MySQL Files
 
@@ -46,7 +50,11 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 - GET_AVG_RATING.sql
 ```
 ### Query Files 
-
+```sql
+- FIND_GENDER.sql
+- FIND_PROPS_BELOW_RENT_AMT.sql
+- FIND_TOP_RATED_PROPS_IN_CITY.sql
+```
 ### How To Run MySQL Workbench
 1. Open **MySQL Workbench** and connect to your local server 
 2. Create a database:
@@ -55,5 +63,7 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
    USE maine_pad_finder;
    ```
 3. For every schema in the schema folder, go to **File -> Open SQL Script**
-4. Select each file and upload
-5. 
+4. Select each file and upload 
+5. Click the lightning bolt to execute
+6. Repeat this process for procedures and functions
+7. To verify the datbase, run queries from "queries" file 
