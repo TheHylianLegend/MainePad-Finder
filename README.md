@@ -25,7 +25,7 @@ Create database using designated MySQL files from "Database Operations", "Proced
 
 ### How To Run MySQL Workbench
 1. Open **MySQL Workbench** and connect to your local server
-2. Create database by pasting this:
+2. Create database by copy and pasting below:
  ```sql
 CREATE DATABASE maine_pad_finder;
 USE maine_pad_finder;
