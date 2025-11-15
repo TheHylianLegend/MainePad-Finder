@@ -14,7 +14,7 @@ either:
 We expect the application to frequently look up a user by their username (e.g., login,
 profile lookup). Without this index, queries such as profile searches would require scanning the entire USERS table.
 - ``INDEX IDX_EMAIL ON USERS(EMAIL)``
-Similar to usernames, emails are often used for login and password recovery flows and must
+Similar to usernames, emails are often used for login and password recovery and must
 be unique. Using this as an index avoids doing a full table scan and making existence checks
 and lookups much faster.
 - ``INDEX IDX_DISPLAY_NAME ON USERS(DISPLAY_NAME);``
