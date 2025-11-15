@@ -30,11 +30,12 @@ Additionally created the index creation script
   
 ### Query Optimization Analysis  
 *Deadline:  11/13/25*  
-- Sophia: Optimized Property Query 
+- Sophia: Optimized FIND_TOP_PROPS_IN_CITY.sql Query
+- Ashley: Optimized FIND_GENDER.sql Query 
   
 ### Comprehensive README file  
 *Deadline:  11/13/25*  
 - Ashley:  How to recreate database explanation  
 - Jeffrey:  How to run webscraping command explanation  
-- Sophia:  How to run SQL files explanation  
+- Sophia:  How to run SQL files explanation + Table of contents 
 - Yunlong:  How to run SQL files explanation  
