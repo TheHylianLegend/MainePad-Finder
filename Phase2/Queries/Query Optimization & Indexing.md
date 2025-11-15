@@ -1,9 +1,9 @@
-## Query Optimization & Indexing 
+# Query Optimization & Indexing 
 This section analyzes how we improved the performance of key MainePad-Finder queries
 
-### Indexing Choices
+## Indexing Choices
 
-
+## Optimized Queries 
 ### Query 1: Top Rated Properties In A City 
 **Goal of query:** For a given city (e.g., Portland), find all properties in that city and sort them by their average review stars, highest first.
 
