@@ -45,7 +45,7 @@ USE MAINEPAD;
 - ALL_TABLE.sql
 - ADD_INDEXES.sql
 ```
-2. **Procedure and Function Files**
+2. **Procedure, Function and Trigger Files**
 ```sql
 - ADD_PROPERTY.sql
 - INSERT_MATCH.sql
@@ -54,6 +54,7 @@ USE MAINEPAD;
 - SEND_NOTIFICATION.sql
 - SUBMIT_REVIEW.sql
 - GET_AVG_RATING.sql
+- UPDATE_PROPERTY_RATING.sql
 ```
 3. **Query Files**
 ```sql
