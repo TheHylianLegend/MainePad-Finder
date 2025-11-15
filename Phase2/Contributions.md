@@ -30,7 +30,7 @@ Additionally created the index creation script
   
 ### Query Optimization Analysis  
 *Deadline:  11/13/25*  
-- Sophia: Optimized Property Query 
+- Sophia: Optimized FIND_PROPERTIES_IN_CITY Query 
   
 ### Comprehensive README file  
 *Deadline:  11/13/25*  
