@@ -6,9 +6,9 @@
 DELIMITER $$
 
 CREATE PROCEDURE SEND_MESSAGE(
-    IN p_SENDER_ID    INT,
-    IN p_RECIPIENT_ID INT,
-    IN p_MESSAGE_TEXT VARCHAR(1000)
+    IN p_SENDER_ID    INT, -- ID of message sender 
+    IN p_RECIPIENT_ID INT, -- ID of message recipient 
+    IN p_MESSAGE_TEXT VARCHAR(1000) -- Text of the message being sent 
 )
 BEGIN
     -- Insert a new "text message" as unread (IS_READ = 0)
