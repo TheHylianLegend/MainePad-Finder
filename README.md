@@ -1,7 +1,7 @@
 # MainePad-Finder
 
 MainePad-Finder is a housing search application designed for Maine University students.  
-This repo contains the MySQL schema, stored procedures, functions, xample queries used to power the backend database and web scraping.
+This repo contains the MySQL schema, stored procedures, functions, example queries used to power the backend database and web scraping.
 
 ## Table of Contents
 ### [Phase 2](https://github.com/TheHylianLegend/MainePad-Finder/tree/31b1e6cc412722f1852190fb40a6aed6102b8990/Phase2)
