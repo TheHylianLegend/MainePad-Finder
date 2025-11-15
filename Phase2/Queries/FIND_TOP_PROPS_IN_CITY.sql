@@ -1,7 +1,7 @@
 -- TITLE: FIND_TOP_RATED_PROPS_IN_CITY
 -- AUTHOR: Sophia Priola
 -- Before optimization, find the top rated properties in a city and order them from greatest to least
-
+EXPLAIN ANALYZE
 SELECT 
     P.PROPERTY_ID,
     A.CITY,
@@ -15,9 +15,9 @@ JOIN ADDRESS AS A
     ON P.ADDR_ID = A.ADDR_ID
 WHERE A.CITY = 'Portland'
 ORDER BY AVG_RATING DESC;
--- Query runtime: 60.65ms before optimization
 
 -- After optimization, find the top rated properties in a city and order them from greatest to least
+EXPLAIN ANALYZE
 SELECT 
     P.PROPERTY_ID,
     A.CITY,
@@ -32,5 +32,3 @@ GROUP BY
     P.PROPERTY_ID,
     A.CITY
 ORDER BY AVG_RATING DESC;
-
--- Query runtime after optimization: 43.55ms
