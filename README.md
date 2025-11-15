@@ -65,10 +65,9 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 
 ### Files Order
 ```sql
-Create_DATABASE.SQL
-ALL_TABLE.sql
-ADD_INDEXES.sql
-Procedures document
-Functions document
-Queries
+- Create_DATABASE.SQL
+- ALL_TABLE.sql
+- ADD_INDEXES.sql
 ```
+**Procedure and Function Files**
+**Query Files**
