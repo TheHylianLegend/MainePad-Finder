@@ -24,12 +24,15 @@ Create database using designated MySQL files from "Database Operations", "Proced
 - A MySQL account that allows you to create databases and tables 
 
 ### How To Run MySQL Workbench
-1. Open **MySQL Workbench** and connect to your local server 
-2. For every schema in the schema folder, go to **File -> Open SQL Script**
-3. Select each file in the **Files Order** and upload 
-4. Click the lightning bolt to execute and follow **Files Order**
-5. Repeat this process for procedures and functions
-6. To verify the database is running correctly, upload and run queries from the "queries" file
+1. Open **MySQL Workbench** and connect to your local server
+2. ```sql CREATE DATABASE maine_pad_finder;
+USE maine_pad_finder;
+```
+3. For every schema in the schema folder, go to **File -> Open SQL Script**
+4. Select each file in the **Files Order** and upload 
+5. Click the lightning bolt to execute and follow **Files Order**
+6. Repeat this process for procedures and functions
+7. To verify the database is running correctly, upload and run queries from the "queries" file
 
 ### Files Order
 1. **Database Operations**
