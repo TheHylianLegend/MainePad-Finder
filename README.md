@@ -73,7 +73,7 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 2. **Procedure and Function Files**
 3. **Query Files**
 
-## How To: Web Scraping
+## Web Scraping
 
 ### Overview
 
