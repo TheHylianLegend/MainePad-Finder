@@ -37,5 +37,5 @@ Additionally created the index creation script
 *Deadline:  11/13/25*  
 - Ashley:  How to recreate database explanation  
 - Jeffrey:  How to run webscraping command explanation  
-- Sophia:  How to run SQL files explanation  
+- Sophia:  How to run SQL files explanation + Table of contents 
 - Yunlong:  How to run SQL files explanation  
