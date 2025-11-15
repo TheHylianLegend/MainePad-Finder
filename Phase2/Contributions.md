@@ -30,7 +30,7 @@ Additionally created the index creation script
   
 ### Query Optimization Analysis  
 *Deadline:  11/13/25*  
-- Sophia: Optimized `FIND_TOP_PROPS_IN_CITY.sql` Query and Query_Optimization_and_Indexing.md
+- Sophia: Optimized `FIND_TOP_PROPS_IN_CITY.sql` Query and created Query_Optimization_and_Indexing.md
 - Ashley: Optimized `TEST_RENT_ADDR_PROPERTY.sql` Query and optimized indexes
 - Jeffrey: Provided `FIND_PROPS_BELOW_RENT_AMT.sql` for query optimization testing purposes
   
