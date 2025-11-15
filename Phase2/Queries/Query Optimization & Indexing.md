@@ -2,6 +2,24 @@
 This section analyzes how we improved the performance of key MainePad-Finder queries
 
 ## Indexing Choices
+We created a small set of indexes to support the most common access patterns
+in the MainePad-Finder application. Each index was chosen because the corresponding column is
+either:
+- Frequently used in `WHERE` filters,
+- Used to look up a single user or subset of users, or
+- Used to sort data by recency (e.g., newest notifications/ messages)
+
+**Chosen Indecies:**
+```sql
+- CREATE INDEX IDX_USERNAME ON USERS(USERNAME);
+- CREATE INDEX IDX_EMAIL ON USERS(EMAIL);
+- CREATE INDEX IDX_DISPLAY_NAME ON USERS(DISPLAY_NAME);
+- CREATE INDEX IDX_BIRTHDATE ON USERS(BIRTH_DATE);
+- CREATE INDEX IDX_RENT ON PROPERTY(RENT_COST);
+- CREATE INDEX IDX_NOTIFICATION_TIMESTAMP ON NOTIFICATION(TIME_STAMP);
+- CREATE INDEX IDX_MESSAGE_TIMESTAMP ON MESSAGE(TIME_STAMP);
+- CREATE INDEX IDX_CITY ON ADDRESS(CITY);
+```
 
 ## Optimized Queries 
 ### Query 1: Top Rated Properties In A City 
