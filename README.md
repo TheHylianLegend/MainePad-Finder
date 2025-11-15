@@ -13,6 +13,7 @@ This repo contains the MySQL schema, stored procedures, functions, example queri
 - [Web Scrapping](https://github.com/TheHylianLegend/MainePad-Finder/tree/48905f4f5baf0d539872c8325e53fd940f5e15be/Phase2/Web%20Scraping)
 ### [Running MySQL Files](#running-mysql-files)
 ### [Web Scraping Scripts](https://github.com/TheHylianLegend/MainePad-Finder/blob/main/README.md#web-scraping-scripts-1)
+### [Query Optimization & Indexing](https://github.com/TheHylianLegend/MainePad-Finder/edit/main/README.md#query-optimization--indexing-1)
 ## Running MySQL Files
 
 ### Overview
@@ -116,3 +117,8 @@ python apartment_finder.py
 ```
 
 See the respective documentation provided for both web scrapers for additional information on the precise directory and format in which the resulting property output will be provided.
+
+## Query Optimization & Indexing 
+This section analyzes how we improved the performance of key MainePad-Finder queries by:
+
+### Query 1: Top Rated Properties In A City 
