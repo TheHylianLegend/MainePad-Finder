@@ -61,7 +61,7 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 3. Select each file in the **Files Order** and upload 
 4. Click the lightning bolt to execute and follow **Files Order**
 5. Repeat this process for procedures and functions
-6. To verify the database, run queries from the "queries" file
+6. To verify the database is running correctly, upload and run queries from the "queries" file
 
 ### Files Order
 1. **Database files**
