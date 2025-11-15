@@ -1,3 +1,29 @@
+-- Before optimization
+EXPLAIN ANALYZE
+SELECT a.City, a.State_Code
+
+       (
+       SELECT COUNT(*)
+       FROM PROPERTY p
+       WHERE p.ADDR_ID = a.ADDR_ID
+       AND p.RENT_COST BETWEEN 2500 AND 2600
+       ) AS NumProperties,
+(
+       SELECT MIN(p.RENT_COST)
+       FROM PROPERTY p 
+       WHERE p.ADDR_ID = a.ADDR_ID
+       AND p.RENT_COST BETWEEN 2500 AND 2600
+       ) AS MinRent,
+(
+       SELECT MAX(p.RENT_COST)
+       FROM PROPERTY p
+       WHERE p.ADDR_ID = a.ADDR_ID
+       AND p.RENT_COST BETWEEN 2500 AND 2600
+       ) AS MaxRent 
+FROM ADDRESS a
+ORDER BY NumProperties DESC;
+
+-- After optimization
 EXPLAIN ANALYZE
 SELECT a.City, a.State_Code, 
        COUNT(*) AS NumProperties,
