@@ -51,7 +51,6 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 ```
 ### Query Files 
 ```sql
-- FIND_GENDER.sql
 - FIND_PROPS_BELOW_RENT_AMT.sql
 - FIND_TOP_RATED_PROPS_IN_CITY.sql
 ```
@@ -71,7 +70,20 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 - ADD_INDEXES.sql
 ```
 2. **Procedure and Function Files**
+```sql
+- ADD_PROPERTY.sql
+- INSERT_MATCH.sql
+- INSERT_USER.sql
+- SEND_MESSAGE.sql
+- SEND_NOTIFICATION.sql
+- SUBMIT_REVIEW.sql
+- GET_AVG_RATING.sql
+```
 3. **Query Files**
+```sql
+- FIND_PROPS_BELOW_RENT_AMT.sql
+- FIND_TOP_RATED_PROPS_IN_CITY.sql
+```
 
 ## Web Scraping Scripts
 
