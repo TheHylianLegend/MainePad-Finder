@@ -33,7 +33,7 @@ CREATE DATABASE IF NOT EXISTS MAINEPAD
 
 USE MAINEPAD;
 ```
-3. For every filed in the designated "Files Order", go to **File -> Open SQL Script**
+3. For every filed in the designated "Files Order" below, go to **File -> Open SQL Script**
 4. Select each file one at a time and upload
 5. Click the lightning bolt to execute 
 6. To verify the database is running correctly, upload and run queries from the "queries" file
