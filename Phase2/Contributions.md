@@ -35,7 +35,7 @@ Additionally created the index creation script
   
 ### Comprehensive README file  
 *Deadline:  11/13/25*  
-- Ashley:  How to recreate database explanation  
+- Ashley:  How to recreate database explanation 
 - Jeffrey:  How to run webscraping command explanation  
-- Sophia:  How to run SQL files explanation + Table of contents 
+- Sophia:  How to run SQL files explanation, Table of Contents and Query Optimization and Indexing sections
 - Yunlong:  How to run SQL files explanation  
