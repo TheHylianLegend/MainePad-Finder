@@ -88,8 +88,8 @@ GROUP BY
 ORDER BY AVG_RATING DESC;
 ```
 **What changed**
-- We join REVIEW once and let MySQL compute AVG(R.STARS) using GROUP BY
-- MySQL can plan this as a single grouped query instead of outer loop + many inner subqueries
+- We join REVIEW once and let MySQL compute AVG(R.STARS) using GROUP BY.
+- MySQL can plan this as a single grouped query instead of outer loop + many inner subqueries.
 
 #### Indexing 
 ```sql
@@ -98,7 +98,7 @@ CREATE INDEX IDX_CITY ON ADDRESS(CITY);
 We use the IDX_CITY index on ADDRESS(CITY) because this query always filters by city. With this index, MySQL can quickly locate all addresses in a given city using an index range scan instead of scanning the entire ADDRESS table.
 
 ## Query 2: Find Properties Within A Rent Cost
-**Goal of Query:** Finds the properties within a range of $2500-$2600 and returns the city and state code of them. 
+**Goal of Query:** Finds each location, how many properties are between 2500 and 2600, and what are the min/max rents.
 
 **Tables involved:**
 ```sql
@@ -106,6 +106,41 @@ We use the IDX_CITY index on ADDRESS(CITY) because this query always filters by 
 - PROPERTY.sql
 ```
 ### Before Optimization 
+```sql
+EXPLAIN ANALYZE
+SELECT
+    a.City,
+    a.State_Code,
+
+       (
+       SELECT COUNT(*)
+       FROM PROPERTY p
+       WHERE p.ADDR_ID = a.ADDR_ID
+       AND p.RENT_COST BETWEEN 2500 AND 2600
+       ) AS NumProperties,
+(
+       SELECT MIN(p.RENT_COST)
+       FROM PROPERTY p 
+       WHERE p.ADDR_ID = a.ADDR_ID
+       AND p.RENT_COST BETWEEN 2500 AND 2600
+       ) AS MinRent,
+(
+       SELECT MAX(p.RENT_COST)
+       FROM PROPERTY p
+       WHERE p.ADDR_ID = a.ADDR_ID
+       AND p.RENT_COST BETWEEN 2500 AND 2600
+       ) AS MaxRent 
+FROM ADDRESS a
+ORDER BY NumProperties DESC;
+```
+**What it does** 
+- runs three subqueries to get how many properties at that address are in the rent range, the minimum and maximum. 
+
+**Why it is less optimial**
+- Three separate scans of PROPERTY per address.
+- Each subquery is correlated with the outer query via p.ADDR_ID = a.ADDR_ID. Correlated queries make it harder to choose an efficient single plan.
+
+#### After Optimization
 
 
 
