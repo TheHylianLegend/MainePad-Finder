@@ -10,16 +10,20 @@ either:
 - Used to sort data by recency (e.g., newest notifications/ messages)
 
 **Chosen Indecies:**
-```sql
-- CREATE INDEX IDX_USERNAME ON USERS(USERNAME);
-- CREATE INDEX IDX_EMAIL ON USERS(EMAIL);
-- CREATE INDEX IDX_DISPLAY_NAME ON USERS(DISPLAY_NAME);
-- CREATE INDEX IDX_BIRTHDATE ON USERS(BIRTH_DATE);
-- CREATE INDEX IDX_RENT ON PROPERTY(RENT_COST);
-- CREATE INDEX IDX_NOTIFICATION_TIMESTAMP ON NOTIFICATION(TIME_STAMP);
-- CREATE INDEX IDX_MESSAGE_TIMESTAMP ON MESSAGE(TIME_STAMP);
-- CREATE INDEX IDX_CITY ON ADDRESS(CITY);
-```
+- ``IDX_USERNAME ON USERS(USERNAME);``
+We expect the application to frequently look up a user by their username (e.g., login,
+profile lookup). Without this index, queries such as profile searches would require scanning the entire USERS table.
+- ``INDEX IDX_EMAIL ON USERS(EMAIL)``
+Similar to usernames, emails are often used for login and password recovery flows and must
+be unique. Using this as an index avoids doing a full table scan and making existence checks
+and lookups much faster.
+- ``INDEX IDX_DISPLAY_NAME ON USERS(DISPLAY_NAME);``
+
+- ``INDEX IDX_BIRTHDATE ON USERS(BIRTH_DATE);``
+- ``INDEX IDX_RENT ON PROPERTY(RENT_COST);``
+- ``INDEX IDX_NOTIFICATION_TIMESTAMP ON NOTIFICATION(TIME_STAMP);``
+- ``INDEX IDX_MESSAGE_TIMESTAMP ON MESSAGE(TIME_STAMP);``
+- ``INDEX IDX_CITY ON ADDRESS(CITY);``
 
 ## Optimized Queries 
 ### Query 1: Top Rated Properties In A City 
