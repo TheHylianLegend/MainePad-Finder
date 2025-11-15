@@ -1,5 +1,5 @@
 # Query Optimization & Indexing 
-This section analyzes how we improved the performance of key MainePad-Finder queries
+This section analyzes why we chose the indecies we have for MainePad-Finder and how we improved the performance of two of our key queries.
 
 ## Indexing Choices
 We created a small set of indexes to support the most common access patterns
