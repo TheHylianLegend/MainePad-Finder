@@ -11,7 +11,7 @@ Additionally created the index creation script
 *Deadline: 11/4/25*
 - Ashley:  Add user account procedure  
 - Jeffrey: Aggregate review function, add match procedure  
-- Sophia:  Submit review procedure, add notification procedure, add message procedure  
+- Sophia:  Submit review procedure, add notification procedure, message procedure and update rating trigger
 - Yunlong: Add property procedure  
 
 ### Data Scraping Scripts and Documentation  
@@ -30,7 +30,7 @@ Additionally created the index creation script
   
 ### Query Optimization Analysis  
 *Deadline:  11/13/25*  
-- Sophia: Optimized FIND_TOP_PROPS_IN_CITY.sql Query and created Query_Optimization_and_Indexing.md
+- Sophia: Optimized FIND_TOP_PROPS_IN_CITY.sql Query and Query_Optimization_and_Indexing.md
 - Ashley: Optimized FIND_GENDER.sql Query 
   
 ### Comprehensive README file  
