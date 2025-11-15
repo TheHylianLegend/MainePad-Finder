@@ -38,7 +38,7 @@ Many MainePad-Finder queries filter properties by city, especially our optimized
 
 ## Optimized Queries 
 ### Query 1: Top Rated Properties In A City 
-**Goal of query:** For a given city (e.g., Portland), find all properties in that city and sort them by their average review stars, highest first.
+**Goal of Query:** For a given city (e.g., Portland), find all properties in that city and sort them by their average review stars, highest first.
 
 **Tables involved:**
 ```sql
@@ -96,4 +96,17 @@ ORDER BY AVG_RATING DESC;
 CREATE INDEX IDX_CITY ON ADDRESS(CITY);
 ```
 We use the IDX_CITY index on ADDRESS(CITY) because this query always filters by city. With this index, MySQL can quickly locate all addresses in a given city using an index range scan instead of scanning the entire ADDRESS table.
+
+## Query 2: Find Properties Within A Rent Cost
+**Goal of Query:** Finds the properties within a range of $2500-$2600 and returns the city and state code of them. 
+
+**Tables involved:**
+```sql
+- ADDRESS.sql
+- PROPERTY.sql
+```
+### Before Optimization 
+
+
+
 
