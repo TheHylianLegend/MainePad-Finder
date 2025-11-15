@@ -19,9 +19,9 @@ Similar to usernames, emails are often used for login and password recovery and 
 - ``INDEX IDX_DISPLAY_NAME ON USERS(DISPLAY_NAME);``
 
 Display names are used for searching. For example you can search for users whos display name starts with "Jeff". An index on DISPLAY_NAME allows MySQL to efficiently seek into the range of matching names instead of scanning every row.
-- ``INDEX IDX_BIRTHDATE ON USERS(BIRTH_DATE);`` Some queries may filter users by age or birthdate range if it is a roomate preference.
+- ``INDEX IDX_BIRTHDATE ON USERS(BIRTH_DATE);``
 
-Indexing BIRTH_DATE lets MySQL use a range scan on the date column, which is much more efficient than scanning all users when we need to select only a subset by birthdate.
+Some queries may filter users by age or birthdate range if it is a roomate preference. Indexing 'BIRTH_DATE' lets MySQL use a range scan on the date column, which is much more efficient than scanning all users when we need to select only a subset by birthdate.
 - ``INDEX IDX_RENT ON PROPERTY(RENT_COST);``
 
 Our application supports queries that filter properties by a maximum or minimum rent amount. Without an index, MySQL would need to scan every property to check its rent. The 'IDX_RENT' index allows MySQL to perform a scan based on a range on RENT_COST, reading only the relevant portion of the index instead of the entire table.
