@@ -58,7 +58,7 @@ USE MAINEPAD;
 ```
 3. **Query Files**
 ```sql
-- FIND_PROPS_BELOW_RENT_AMT.sql
+- TEST_RENT_ADDR_PROPERTY.sql
 - FIND_TOP_RATED_PROPS_IN_CITY.sql
 ```
 
