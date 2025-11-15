@@ -57,17 +57,18 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 ```
 ### How To Run MySQL Workbench
 1. Open **MySQL Workbench** and connect to your local server 
-3. For every schema in the schema folder, go to **File -> Open SQL Script**
-4. Select each file in the **Files Order** and upload 
-5. Click the lightning bolt to execute and follow **Files Order**
-6. Repeat this process for procedures and functions
-7. To verify the database, run queries from the "queries" file
+2. For every schema in the schema folder, go to **File -> Open SQL Script**
+3. Select each file in the **Files Order** and upload 
+4. Click the lightning bolt to execute and follow **Files Order**
+5. Repeat this process for procedures and functions
+6. To verify the database, run queries from the "queries" file
 
 ### Files Order
+1. **Database files**
 ```sql
 - Create_DATABASE.SQL
 - ALL_TABLE.sql
 - ADD_INDEXES.sql
 ```
-**Procedure and Function Files**
-**Query Files**
+2. **Procedure and Function Files**
+3. **Query Files**
