@@ -1,4 +1,4 @@
--- TITLE: FIND_TOP_RATED_PROPS_IN_CITY
+-- TITLE: FIND_TOP_RATED_PROPETIES_IN_CITY
 -- AUTHOR: Sophia Priola
 -- Before optimization, find the top rated properties in a city and order them from greatest to least
 
