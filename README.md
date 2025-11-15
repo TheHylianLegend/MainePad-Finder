@@ -25,21 +25,16 @@ Create database using designated MySQL files from "Database Operations", "Proced
 
 ### How To Run MySQL Workbench
 1. Open **MySQL Workbench** and connect to your local server
-2. Create database by copy and pasting below:
- ```sql
-CREATE DATABASE maine_pad_finder;
-USE maine_pad_finder;
-```
-3. For every schema in the schema folder, go to **File -> Open SQL Script**
-4. Select each file in the **Files Order** and upload 
-5. Click the lightning bolt to execute and follow **Files Order**
-6. Repeat this process for procedures and functions
+2. Create database by pasting 
+3. For every filed in the designated "Files Order", go to **File -> Open SQL Script**
+4. Select each file one at a time and upload
+5. Click the lightning bolt to execute 
 7. To verify the database is running correctly, upload and run queries from the "queries" file
 
-### File Order
+### Files Order
 1. **Database Operations**
 ```sql
-- Create_DATABASE.SQL
+- Create_Database.sql
 - ALL_TABLE.sql
 - ADD_INDEXES.sql
 ```
