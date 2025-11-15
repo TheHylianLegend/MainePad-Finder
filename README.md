@@ -16,44 +16,13 @@ This repo contains the MySQL schema, stored procedures, functions, example queri
 ## Running MySQL Files
 
 ### Overview
-Create database using designated MySQL files from "Functions", "Procedures" and "Schema" folders. Verify your database is functioning accordingly by using an example query from the "Queries" folder. 
+Create database using designated MySQL files from "Database Operations", "Procedures" and "Functions" folders. Verify your database is functioning accordingly by using an example query from the "Queries" folder. 
 
 ### Installation and Requirements 
 - [MySQL Community Server](https://dev.mysql.com/downloads/mysql/8.0.html) installed 
 - [MySQL Workbench](https://dev.mysql.com/downloads/workbench/)
 - A MySQL account that allows you to create databases and tables 
 
-### Schema Files
-```sql
-- ADDRESS.sql
-- HAS_PREFERENCE.sql
-- LANDLORD.sql
-- MESSAGE.sql
-- NOTIFICATION.sql
-- NOTIFIES.sql
-- PROPERTY.sql
-- RENTER.sql
-- RENTER_MATCH.sql
-- RENTER_PREFERENCES.sql
-- RENTER_SETTINGS.sql
-- REVIEW.sql
-- USERS.sql
-```
-### Procedure and Function Files 
-```sql
-- ADD_PROPERTY.sql
-- INSERT_MATCH.sql
-- INSERT_USER.sql
-- SEND_MESSAGE.sql
-- SEND_NOTIFICATION.sql
-- SUBMIT_REVIEW.sql
-- GET_AVG_RATING.sql
-```
-### Query Files 
-```sql
-- FIND_PROPS_BELOW_RENT_AMT.sql
-- FIND_TOP_RATED_PROPS_IN_CITY.sql
-```
 ### How To Run MySQL Workbench
 1. Open **MySQL Workbench** and connect to your local server 
 2. For every schema in the schema folder, go to **File -> Open SQL Script**
@@ -63,7 +32,7 @@ Create database using designated MySQL files from "Functions", "Procedures" and 
 6. To verify the database is running correctly, upload and run queries from the "queries" file
 
 ### Files Order
-1. **Database files**
+1. **Database Operations**
 ```sql
 - Create_DATABASE.SQL
 - ALL_TABLE.sql
