@@ -11,7 +11,7 @@ Additionally created the index creation script
 *Deadline: 11/4/25*
 - Ashley:  Add user account procedure  
 - Jeffrey: Aggregate review function, add match procedure  
-- Sophia:  Submit review procedure, add notification procedure, message procedure and update rating trigger
+- Sophia:  Submit review procedure, add notification procedure, message procedure and update property rating trigger
 - Yunlong: Add property procedure  
 
 ### Data Scraping Scripts and Documentation  
