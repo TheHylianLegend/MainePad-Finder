@@ -1,5 +1,5 @@
 -- TITLE: SEND_NOTIFICATION.sql
--- AUTHOR: SOPHIA PRIOLA
+-- AUTHOR: Sophia Priola
 -- SEND_NOTIFICATION Is a procedure to send system wide notifications to users 
 -- Insert a new unread notification with the current timestamp and given text
 
