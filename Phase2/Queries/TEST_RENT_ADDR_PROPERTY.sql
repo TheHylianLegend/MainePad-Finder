@@ -23,6 +23,8 @@ FROM ADDRESS a
 GROUP BY a.City, a.State_Code
 ORDER BY NumProperties DESC;
 SET SESSION sql_mode = CONCAT(@@sql_mode, ',ONLY_FULL_GROUP_BY');
+
+
 -- After optimization
 SELECT a.City, a.State_Code, 
        COUNT(*) AS NumProperties,
