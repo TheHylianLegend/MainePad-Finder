@@ -1,5 +1,5 @@
 -- TITLE: SUBMIT_REVIEW.sql
--- AUTHOR: SOPHIA PRIOLA 
+-- AUTHOR: Sophia Priola
 -- SUBMIT_REVIEW Allows a user to submit a review for a property they have rented
 -- Users can rate a property out of 5 stars and optionally add a comment
 
