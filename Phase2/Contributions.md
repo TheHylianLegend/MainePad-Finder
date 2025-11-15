@@ -38,4 +38,11 @@ Additionally created the index creation script
 - Ashley:  How to recreate database explanation 
 - Jeffrey:  How to run webscraping command explanation  
 - Sophia:  How to run SQL files explanation and Table of Contents 
-- Yunlong:  How to run SQL files explanation  
+- Yunlong:  How to run SQL files explanation
+
+### Video Recording
+*Deadline: 11/15/25*
+- Ashley: Running the database from scratch, data loading, constraints in action
+- Jeffrey: Web scraping demonstration
+- Sophia: Queries, triggers and indexing
+- Yunlong: Stored procedures and functions
