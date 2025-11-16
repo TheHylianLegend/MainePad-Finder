@@ -1,11 +1,12 @@
 # NAME: Fosgate_ZillowScraper.py
 # DATE COMMITTED: November 12, 2025
+# UPDATED: November 14, 2025
 # DESCRIPTION: A simple web scraper that retrieves necessary data for several Zillow-listed rental apartments and properties in Maine.
+# UPDATE SUMMARY: Added additional sanitization checks; made provisions to split "ADDR" into "STREET", "CITY" and "ZIPCODE" within the final produced CSV.
 
 ### PROBLEMS ###
 # * Some data is not completely sanitized; some trailing spaces are evident in some component of addresses, for instance.
 # * This takes a while to completely finish -- above five minutes to generate ~300+ property listings.
-# * "ADDR" needs to be broken down into "STREET", "CITY" and "ZIPCODE" in future uses of the data this generates.
 # * There isn't much for outright error detection here; just ways to prevent errors from occurring in the first place.
 
 # The heavy lifters for the actual web scraping.
@@ -24,7 +25,7 @@ from copy import deepcopy
 
 # These are all the fields that ZillowScraper retrieves. Many of them correspond with their listings on the MainePad Finder SQL schemas.
 # "NAME" (string) is added just to make the properties more identifiable.
-FIELDS_NEEDED = ["NAME","ADDR","RENT_COST","BEDROOMS","BATHROOMS","APT_NUM","SQFT"]
+FIELDS_NEEDED = ["NAME","STREET","CITY","ZIPCODE","RENT_COST","BEDROOMS","BATHROOMS","APT_NUM","SQFT"]
 
 # These headers are configured for Firefox and included to bypass any bot detection present on Zillow.
 # If this program doesn't work, try changing this information to reflect a different web browser.
@@ -333,15 +334,25 @@ while not scraping_finished:
 # If a field is not found in a property, it will appear empty on the resulting .CSV.
 # This makes it easier to deduce which entries are clearly incomplete.
 for property in properties:
-    for field in FIELDS_NEEDED:
-        if field not in property.keys():
-            property[field] = None
+    for str_field in ["NAME","ADDR","APT_NUM"]:
+        if str_field not in property.keys():
+            property[str_field] = "NONE"
+    for float_field in ["BEDROOMS", "BATHROOMS"]:
+        if float_field not in property.keys():
+            property[float_field] = 0.0
+    for int_field in ["SQFT","RENT_COST"]:
+        if int_field not in property.keys():
+            property[int_field] = 0
+    if len(property["ADDR"]) == 3:
+        property["STREET"], property["CITY"], property["ZIPCODE"] = (address_part.strip("\xa0 ") for address_part in property["ADDR"])
+    else:
+        property["STREET"], property["CITY"], property["ZIPCODE"] = ("NONE", "NONE", "NONE")
 
 print("Property data retrieval complete! Writing property data to CSV...")
 
 # The resulting .CSV will be created within the same directory that this file is located in when it is initiated.
 with open(os.path.join(os.path.dirname(__file__), "zillow-properties.csv"), mode='w') as zillow_csv:
-    writer = csv.DictWriter(zillow_csv, fieldnames = FIELDS_NEEDED)
+    writer = csv.DictWriter(zillow_csv, fieldnames = FIELDS_NEEDED, extrasaction='ignore')
     writer.writeheader()
     for property in properties:
         writer.writerow(property)
