@@ -19,18 +19,22 @@ WHERE A.CITY = 'Portland'    -- Only look at properties in 'Portland'
 ORDER BY AVG_RATING DESC;    -- Display highest rated properties first 
 -- Duration: 0.00139550 seconds
 
--- After optimization, find the top rated properties in a city and order them from greatest to least
+-- After optimization
+-- Find the top rated properties in a city and order them rated highest to lowest 
+-- Rewrites the query using JOIN + GROUP BY instead of a correlated subquery.
+
 SELECT 
-    P.PROPERTY_ID,
-    A.CITY,
-    AVG(R.STARS) AS AVG_RATING
+    P.PROPERTY_ID,    -- ID of property
+    A.CITY,           -- City that property is located 
+    AVG(R.STARS) AS AVG_RATING    -- average rating per property
 FROM PROPERTY AS P
 JOIN ADDRESS AS A
-    ON P.ADDR_ID = A.ADDR_ID
+    ON P.ADDR_ID = A.ADDR_ID    -- link property to its address
 JOIN REVIEW AS R
-    ON R.PROPERTY_ID = P.PROPERTY_ID
-WHERE A.CITY = 'Portland'
-GROUP BY 
+    ON R.PROPERTY_ID = P.PROPERTY_ID    -- link each review to its property
+WHERE A.CITY = 'Portland'    -- Onlny look at properties in 'Portland'
+GROUP BY             -- group by property to compute AVG(STARS)
     P.PROPERTY_ID,
     A.CITY
-ORDER BY AVG_RATING DESC;
+ORDER BY AVG_RATING DESC;    -- Display highest rated properties first 
+-- Duration: 0.00057875 seconds
