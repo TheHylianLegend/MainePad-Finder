@@ -1,3 +1,8 @@
+-- TITLE: INSERT_USER
+-- AUTHOR: Ashley Pike
+-- DATE OF GITHUB COMMIT: 11/5/2025
+-- A simple stored procedure for inserting given values into a new user instance
+
 DELIMITER $$
 
 CREATE PROCEDURE INSERT_USER (
