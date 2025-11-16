@@ -13,7 +13,7 @@ This repo contains the MySQL schema, stored procedures, functions, example queri
 - [Web Scrapping](https://github.com/TheHylianLegend/MainePad-Finder/tree/48905f4f5baf0d539872c8325e53fd940f5e15be/Phase2/Web%20Scraping)
 ### [Running MySQL Files](#running-mysql-files)
 ### [Web Scraping Scripts](https://github.com/TheHylianLegend/MainePad-Finder/blob/main/README.md#web-scraping-scripts-1)
-### [Query Optimization & Indexing]
+### [Query Optimization & Indexing](https://github.com/TheHylianLegend/MainePad-Finder/blob/main/Phase2/Queries/Query%20Optimization%20%26%20Indexing.md#query-optimization--indexing)
 ## Running MySQL Files
 
 ### Overview
