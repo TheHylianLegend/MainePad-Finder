@@ -8,7 +8,7 @@ This repo contains the MySQL schema, stored procedures, functions, example queri
 - [Database Operations](https://github.com/TheHylianLegend/MainePad-Finder/tree/19730709c2f13f61e2ca7c048f4cf8d0a0ef73b6/SQL/Database%20Operations)
 - [Functions and Triggers](https://github.com/TheHylianLegend/MainePad-Finder/tree/eee682a69575a481f1f8e054e3cba5e1c1ad4b6f/SQL/Functions%20and%20Triggers)
 - [Procedures](https://github.com/TheHylianLegend/MainePad-Finder/tree/a4490b922041a059fa0d3d9b2e3b999a13bf756c/SQL/Procedures)
-- [Queries](https://github.com/TheHylianLegend/MainePad-Finder/tree/983ab3f3532497a4c049ce1b2e8e112aa9aff0fc/Phase2/Queries)
+- [Queries](https://github.com/TheHylianLegend/MainePad-Finder/tree/a4490b922041a059fa0d3d9b2e3b999a13bf756c/SQL/Queries)
 - [Schema](https://github.com/TheHylianLegend/MainePad-Finder/tree/d2591ae08ed2a89a19d25773ed49a6cad05f5191/Phase2/Schema)
 - [Web Scrapping](https://github.com/TheHylianLegend/MainePad-Finder/tree/48905f4f5baf0d539872c8325e53fd940f5e15be/Phase2/Web%20Scraping)
 ### [Running MySQL Files](#running-mysql-files)
