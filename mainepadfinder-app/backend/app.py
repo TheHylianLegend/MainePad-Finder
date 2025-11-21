@@ -1,16 +1,20 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_cors import CORS
+from dotenv import load_dotenv
+import os
 import mysql.connector
 import re
+
+load_dotenv()
 
 app = Flask(__name__)
 CORS(app)  # allows frontend to communicate with backend
 
 db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "pass",
-    database = "mydb"
+    host = os.getenv("DB_HOST"),
+    user = os.getenv("DB_USER"),
+    password = os.getenv("DB_PASSWORD"),
+    database = os.getenv("DB_NAME")
 )
 
 @app.post("/api/signup")
