@@ -75,7 +75,7 @@ export default function SignUp() {
 
         <div>
           <label>Birth Date:</label>
-          <input type="date" value={birthDate} onChange={(e) => setPhoneNumber(e.target.value)} required /> 
+          <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required /> 
         </div>
 
         <div>
