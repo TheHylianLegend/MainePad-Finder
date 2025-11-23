@@ -23,7 +23,7 @@ function App() {
 
   return (
     <>
-      <h1>MainePad Finder</h1>
+      <h1>Welcome To MainePad Finder</h1>
       <p>{data}</p>
 
       <nav>

@@ -1,7 +1,7 @@
 export default function Properties() {
   return (
     <div>
-      <h1>Properties Page</h1>
+      <h1>Properties</h1>
     </div>
   );
 }
