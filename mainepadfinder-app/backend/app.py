@@ -26,7 +26,7 @@ def signup():
     username = data["username"]
     password = data["password"]
     phoneNumber = data["phoneNumber"]
-    birthDate = data["birthdate"]
+    birthDate = data["birthDate"]
     displayName = data["displayName"]
     gender = data["gender"]
 
@@ -37,6 +37,8 @@ def signup():
         (username, hashedPassword, email, phoneNumber, gender, birthDate, displayName)
     )
     db.commit()
+    return jsonify({"message": "User created successfully"}), 201
+
 
 
     
