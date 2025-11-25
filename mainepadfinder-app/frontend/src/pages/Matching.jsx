@@ -1,7 +1,7 @@
 export default function Matching() {
   return (
     <div>
-      <h1>Matching Page</h1>
+      <h1>Matchmaking</h1>
     </div>
   );
 }
