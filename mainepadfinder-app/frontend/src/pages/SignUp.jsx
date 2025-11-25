@@ -28,7 +28,7 @@ export default function SignUp() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, username, password, displayName, gender, phoneNumber, birthDate}),
+        body: JSON.stringify({ email, username, password, displayName, phoneNumber, birthDate, gender}),
       });
 
       const data = await response.json();
@@ -75,7 +75,7 @@ export default function SignUp() {
 
         <div>
           <label>Birth Date:</label>
-          <input type="date" value={birthDate} onChange={(e) => setPhoneNumber(e.target.value)} required /> 
+          <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} required /> 
         </div>
 
         <div>
