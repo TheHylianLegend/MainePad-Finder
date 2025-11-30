@@ -1,15 +1,17 @@
 from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from flask_cors import CORS
+from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
 import mysql.connector
 import re
+import secrets
 
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app)  # allows frontend to communicate with backend
+CORS(app, supports_credentials=True, origins=["https://localhost:5173"])  # allows frontend to communicate with backend
 
 db = mysql.connector.connect(
     host = os.getenv("DB_HOST"),
@@ -18,6 +20,9 @@ db = mysql.connector.connect(
     database = os.getenv("DB_NAME")
 )
 cursor = db.cursor(dictionary=True)
+
+
+##@app.post
 
 @app.post("/api/signup")
 def signup():
@@ -29,6 +34,7 @@ def signup():
     birthDate = data["birthDate"]
     displayName = data["displayName"]
     gender = data["gender"]
+    userType = data["userType"]
 
     hashedPassword = generate_password_hash(password)
 
@@ -36,19 +42,60 @@ def signup():
         "INSERT INTO USERS (USERNAME, PASS_WORD, EMAIL, PHONE_NUMBER, GENDER, BIRTH_DATE, DISPLAY_NAME) VALUES (%s, %s, %s, %s, %s, %s, %s)",
         (username, hashedPassword, email, phoneNumber, gender, birthDate, displayName)
     )
+
+    userID = cursor.lastrowid
+    
+    if userType == "Renter":
+        cursor.execute("INSERT INTO RENTER (USER_ID) VALUES (%s)", (userID,))
+    elif userType == "Landlord":
+        cursor.execute("INSERT INTO LANDLORD (USER_ID) VALUES (%s)", (userID,))
+    else:
+        db.rollback()
+        return jsonify({"error": "Invalid user type"}), 401
+        
+   
     db.commit()
+
     return jsonify({"message": "User created successfully"}), 201
 
 
 
     
 
-@app.get("/api/login")
+@app.post("/api/login")
 def login():
     data = request.get_json()
     username = data["username"]
     password = data["password"]
 
+    cursor.execute("SELECT USER_ID, PASS_WORD FROM USERS WHERE USERNAME = %s", (username,))
+    user = cursor.fetchone()
+
+    if user is None:
+        print("NO USER FOUND — Invalid username")
+        return jsonify({"error": "Invalid credentials"}), 401
+
+    if not user or not check_password_hash(user["PASS_WORD"], password):
+        return jsonify({"error": "Invalid credentials"}), 401
+    
+    token = secrets.token_hex(32)
+    userID = user["USER_ID"]
+    createdAt = datetime.now(timezone.utc)
+    expiresAt = createdAt + timedelta(days=1)
+
+    resp = jsonify({"message": "Login successful"})
+    resp.set_cookie('token', token, expires=expiresAt, secure=True, httponly=True, samesite="None")
+
+    cursor.execute("INSERT INTO SESSIONS (TOKEN, USER_ID, CREATED_AT, EXPIRES_AT) VALUES (%s, %s, %s, %s)", (token, userID, createdAt, expiresAt))
+    db.commit()
+
+    return resp, 200
+
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(
+        host='localhost',
+        port=5000,
+        ssl_context=(os.getenv('SSL_CERT_PATH'), os.getenv('SSL_KEY_PATH')),
+        debug=True
+    )
