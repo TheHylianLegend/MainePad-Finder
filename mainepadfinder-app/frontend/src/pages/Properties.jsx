@@ -150,7 +150,7 @@ export default function Properties() {
         </div>
       )}
     </div>
-  }
+  )}
   );
 }
 
