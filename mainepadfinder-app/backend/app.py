@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for, session, jsonify
+from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 from datetime import datetime, timedelta, timezone
 from dotenv import load_dotenv
 from werkzeug.security import generate_password_hash, check_password_hash
+from functools import wraps
 import os
 import mysql.connector
 import re
@@ -22,7 +23,27 @@ db = mysql.connector.connect(
 cursor = db.cursor(dictionary=True)
 
 
-##@app.post
+def login_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = request.cookies.get(token)
+
+        if not token:
+            return jsonify({"error": "Session cookie not found."}), 401
+        
+        now = datetime.now(timezone.utc)
+
+        cursor.execute("SELECT USER_ID FROM SESSIONS WHERE TOKEN = %s AND EXPIRES_AT > %s", (token, now))
+        session_data = cursor.fetchone()
+
+        if not session_data:
+            return jsonify({"error": "Invalid or expired session."}), 401
+        
+        g.user_id = session_data["USER_ID"]
+
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @app.post("/api/signup")
 def signup():
@@ -70,10 +91,6 @@ def login():
 
     cursor.execute("SELECT USER_ID, PASS_WORD FROM USERS WHERE USERNAME = %s", (username,))
     user = cursor.fetchone()
-
-    if user is None:
-        print("NO USER FOUND — Invalid username")
-        return jsonify({"error": "Invalid credentials"}), 401
 
     if not user or not check_password_hash(user["PASS_WORD"], password):
         return jsonify({"error": "Invalid credentials"}), 401
