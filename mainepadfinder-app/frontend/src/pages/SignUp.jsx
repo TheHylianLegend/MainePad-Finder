@@ -10,6 +10,7 @@ export default function SignUp() {
   const [birthDate, setBirthDate] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [gender, setGender] = useState("M");
+  const [userType, setUserType] = useState("Renter")
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
@@ -23,12 +24,13 @@ export default function SignUp() {
     }
 
     try {
-      const response = await fetch ("http://127.0.0.1:5000/api/signup", {
+      const response = await fetch ("https://localhost:5000/api/signup", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, username, password, displayName, phoneNumber, birthDate, gender}),
+        credentials: "include",
+        body: JSON.stringify({ email, username, password, displayName, phoneNumber, birthDate, gender, userType}),
       });
 
       const data = await response.json();
@@ -91,6 +93,20 @@ export default function SignUp() {
             <option value="X">Other</option>
             <option value="?">Prefer not to say</option>
           </select>
+        </div>
+
+        <br />
+        <div>
+          <p>Select user type:</p>
+          <label>
+            <input type="radio" name="userType" value="Renter" checked={userType === "Renter"} onChange={(e) => setUserType(e.target.value)} />
+            Renter
+          </label>
+           <br />
+          <label>
+            <input type="radio" name="userType" value="Landlord" checked={userType === "Landlord"} onChange={(e) => setUserType(e.target.value)} />
+            Landlord
+          </label>
         </div>
 
         <button type="submit">
