@@ -1,0 +1,170 @@
+Street,City,State,Zipcode,Unit,Rent,SqFt,Bedrooms,Bathrooms,Available
+52 Hanover St,Portland,ME,04101,410,1995,408,0,1.0,0
+52 Hanover St,Portland,ME,04101,406,2030,439,0,1.0,0
+52 Hanover St,Portland,ME,04101,607,2295,515,0,1.0,0
+52 Hanover St,Portland,ME,04101,517,2650,521,0,1.0,0
+52 Hanover St,Portland,ME,04101,325,2650,582,0,1.0,0
+52 Hanover St,Portland,ME,04101,705,2295,521,0,1.0,0
+52 Hanover St,Portland,ME,04101,428,2325,553,0,1.0,0
+52 Hanover St,Portland,ME,04101,429,2295,582,0,1.0,0
+52 Hanover St,Portland,ME,04101,318,2825,701,1.0,1.0,0
+52 Hanover St,Portland,ME,04101,327,2995,878,1.0,1.0,0
+52 Hanover St,Portland,ME,04101,431,3100,878,1.0,1.0,0
+52 Hanover St,Portland,ME,04101,305,2750,654,1.0,1.0,0
+52 Hanover St,Portland,ME,04101,503,2850,689,1.0,1.0,0
+52 Hanover St,Portland,ME,04101,532,2650,701,1.0,1.0,0
+52 Hanover St,Portland,ME,04101,329,2625,719,1.0,1.0,0
+52 Hanover St,Portland,ME,04101,514,3300,930,1.0,1.0,0
+52 Hanover St,Portland,ME,04101,526,3200,1103,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,714,3995,1103,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,601,3300,1117,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,436,3550,1097,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,536,3575,1097,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,323,3600,1213,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,400,3825,1019,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,800,4995,1450,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,201,2596,1005,2.0,2.0,0
+52 Hanover St,Portland,ME,04101,300,3975,1019,2.0,2.0,0
+401 Cumberland Ave,Portland,ME,04101,1401,2575,950,2.0,2.0,0
+401 Cumberland Ave,Portland,ME,04101,605,2400,910,2.0,1.0,0
+401 Cumberland Ave,Portland,ME,04101,807,2225,910,2.0,1.5,0
+401 Cumberland Ave,Portland,ME,04101,1603,3200,1100,2.0,1.5,0
+401 Cumberland Ave,Portland,ME,04101,1604,3200,1100,2.0,1.5,0
+62 MacArthur Cir,South Portland,ME,04106,01-116,2105,810,1.0,1.0,0
+62 MacArthur Cir,South Portland,ME,04106,01-098,2105,810,1.0,1.0,0
+62 MacArthur Cir,South Portland,ME,04106,01-117,2175,810,1.0,1.0,0
+62 MacArthur Cir,South Portland,ME,04106,01-118,2354,990,2.0,1.5,0
+62 MacArthur Cir,South Portland,ME,04106,01-078,2569,1240,2.0,2.0,0
+62 MacArthur Cir,South Portland,ME,04106,01-021,2594,1240,2.0,2.0,0
+62 MacArthur Cir,South Portland,ME,04106,01-079,3045,1360,3.0,2.0,0
+62 MacArthur Cir,South Portland,ME,04106,01-083,3090,1360,3.0,2.0,0
+201 Federal St,Portland,ME,04101,505,2365,544,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1304,2377,471,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1604,2380,471,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1704,2449,471,1.0,1.0,0
+201 Federal St,Portland,ME,04101,903,2390,523,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1503,2583,523,1.0,1.0,0
+201 Federal St,Portland,ME,04101,707,2434,519,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1707,2654,519,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1502,3297,665,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1602,3349,665,1.0,1.0,0
+201 Federal St,Portland,ME,04101,902,2715,665,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1409,2825,586,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1209,2890,586,1.0,1.0,0
+201 Federal St,Portland,ME,04101,901,2850,619,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1201,3063,619,1.0,1.0,0
+201 Federal St,Portland,ME,04101,1301,3115,619,1.0,1.0,0
+11 Shepley St,Portland,ME,04101,03,1850,500,1.0,1.0,0
+11 Shepley St,Portland,ME,04101,54,2000,500,1.0,1.0,0
+11 Shepley St,Portland,ME,04101,56,2145,500,1.0,1.0,0
+144 State St,Portland,ME,04101,315,1947,366,0,1.0,0
+144 State St,Portland,ME,04101,413,2272,541,1.0,1.0,0
+144 State St,Portland,ME,04101,301,2272,475,1.0,1.0,0
+144 State St,Portland,ME,04101,410,2514,645,1.0,1.0,0
+144 State St,Portland,ME,04101,608,2741,620,1.0,1.0,0
+144 State St,Portland,ME,04101,408,2521,620,1.0,1.0,0
+144 State St,Portland,ME,04101,407,2633,617,1.0,1.0,0
+144 State St,Portland,ME,04101,414,2272,453,1.0,1.0,0
+144 State St,Portland,ME,04101,411,2719,661,1.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-MN-018,1694,535,1.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-ME-093,1724,535,1.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-MN-004,1809,535,1.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-WW-118,2019,760,2.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-WE-115,2114,760,2.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-MW-020,2099,760,2.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-D-030,2420,825,3.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-WE-119,2390,825,3.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-D-162,2365,785,3.0,1.0,0
+62 MacArthur Cir E,South Portland,ME,04106,01-D-135,2395,785,3.0,1.0,0
+46A Tamarlane,Portland,ME,04103,64,2129,1025,2.0,2.0,0
+46A Tamarlane,Portland,ME,04103,49,2151,1025,2.0,2.0,0
+240 Harvard St,Portland,ME,04103,1-109,1910,618,2.0,1.0,0
+240 Harvard St,Portland,ME,04103,4-409,2093,611,2.0,1.0,0
+240 Harvard St,Portland,ME,04103,4-408,2002,642,2.0,1.0,0
+100 Forest Park,Portland,ME,04101,18-F4,2200,700,2.0,1.0,0
+41 Winchester Dr,Portland,ME,04103,48-302,2528,907,2.0,1.0,0
+41 Winchester Dr,Portland,ME,04103,41-104,2516,907,2.0,1.0,0
+41 Winchester Dr,Portland,ME,04103,41-202,2572,907,2.0,1.0,0
+49 Berkshire Rd,Portland,ME,04103,2Bedroom,3900,1975,2.0,1.5,0
+111 Summit Ter,South Portland,ME,04106,21,2359,950,2.0,1.0,0
+111 Summit Ter,South Portland,ME,04106,12,2462,950,2.0,1.0,0
+111 Summit Ter,South Portland,ME,04106,59,2528,950,2.0,1.0,0
+111 Summit Ter,South Portland,ME,04106,16,2468,900,2.0,1.0,0
+111 Summit Ter,South Portland,ME,04106,28,2450,900,2.0,1.0,0
+111 Summit Ter,South Portland,ME,04106,84,2494,950,2.0,1.0,0
+111 Summit Ter,South Portland,ME,04106,70,2515,950,2.0,1.0,0
+383 Commercial St,Portland,ME,04101,Hobsons Landing Portland,4500,1103,2.0,2.0,0
+667 Congress St,Portland,ME,04101,811,2129,412,0,1.0,0
+667 Congress St,Portland,ME,04101,315,1737,412,0,1.0,0
+667 Congress St,Portland,ME,04101,212,2253,615,1.0,1.0,0
+65 Sherman St,Portland,ME,04101,15,2200,680,2.0,1.0,0
+27 Frederic St,Portland,ME,04102,B,2650,1000,3.0,1.0,0
+30 West St,Portland,ME,04102,6,1650,450,1.0,1.0,0
+30 West St,Portland,ME,04102,5,1650,450,1.0,1.0,0
+24 Rowe Ave,Portland,ME,04102,Apt 1,1850,560,1.0,1.0,0
+182 Margaret St,South Portland,ME,04106,Apt 1,4200,,4.0,1.0,0
+17 Jarita Ct,Portland,ME,04103,Apt 1,3600,1900,3.0,2.5,0
+194 Falmouth St,Portland,ME,04102,#1,2950,1700,3.0,1.0,0
+151 Dartmouth St,Portland,ME,04103,#1,3200,1642,3.0,1.5,0
+31 Forest St,Portland,ME,04102,1,2195,380,1.0,1.0,0
+3 Grant St,Portland,ME,04101,2,2700,1200,1.0,1.0,0
+248 Valley St,Portland,ME,04102,#1,2195,1070,2.0,1.0,0
+15 Brown St,Portland,ME,04101,204,3330,1116,2.0,1.5,0
+46 Saunders St,Portland,ME,04103,FLOOR 1,2400,1100,2.0,1.0,0
+241 Cumberland Ave,Portland,ME,04101,Sunny Furnished Downtown,3500,1000,1.0,1.5,0
+147 Pearl St,Portland,ME,04101,7,1675,450,1.0,1.0,0
+32 Pleasant St,Portland,ME,04101,2,2700,719,1.0,1.0,0
+9 Mayo St,Portland,ME,04101,Apartment #1,2300,920,2.0,1.0,0
+26 E Oxford St,Portland,ME,04101,Apartment #1,2750,1150,2.0,1.0,0
+10 Exchange St,Portland,ME,04101,303,2000,305,,1.0,0
+14 Emmons St,Portland,ME,04103,1,2500,1350,2.0,1.0,0
+1060 Forest Ave,Portland,ME,04103,2,2900,1067,2.0,1.0,0
+18 Ocean St,South Portland,ME,04106,134,2800,980,2.0,1.0,0
+1909 Congress St,Portland,ME,04102,134,4700,2200,3.0,2.0,0
+868 Broadway,South Portland,ME,04106,Move in Ready 1 Bedroom,1500,250,1.0,1.0,0
+69 Maggie Ln,Portland,ME,04103,Move in Ready 1 Bedroom,3350,1300,2.0,1.5,0
+248 Preble St,South Portland,ME,04106,#2,2000,600,1.0,1.0,0
+96 Skillings St,South Portland,ME,04106,#2,3000,1400,3.0,1.5,0
+24 Myrtle Ln,South Portland,ME,04106,#2,3000,654,2.0,1.0,0
+90 Farragut St,Portland,ME,04103,#2,3500,1666,3.0,2.5,0
+11 Henry St,South Portland,ME,04106,#2,8775,2125,4.0,2.5,0
+23 Graffam Rd,South Portland,ME,04106,#2,5875,1600,3.0,1.5,0
+21 Fessenden St,Portland,ME,04103,19-1,1948,800,2.0,1.0,0
+261 State St,Portland,ME,04101,#6,1750,750,1.0,1.0,0
+126 Spring St,Portland,ME,04101,2,1565,550,,1.0,0
+229 Cumberland Ave,Portland,ME,04101,4,1995,450,,1.0,0
+92 Danforth St,Portland,ME,04101,3.0,1600,500,1.0,1.0,0
+25 High St,Portland,ME,04101,307,2250,756,1.0,1.0,0
+99 Silver St,Portland,ME,04101,4-6,2600,850,1.0,1.0,0
+438 Fore St,Portland,ME,04101,3A,2748,1100,2.0,1.0,0
+59 Cumberland Ave,Portland,ME,04101,59 #2,1600,725,2.0,1.0,0
+8 Quebec St,Portland,ME,04101,1,2312,700,2.0,1.0,0
+16 Grand St,South Portland,ME,04106,1,2000,450,1.0,1.0,0
+433 Preble St,South Portland,ME,04106,2,1850,850,1.0,1.0,0
+117 Ashmont St,Portland,ME,04103,1,2850,,3.0,2.0,0
+190 Coyle St,Portland,ME,04103,3,2350,900,2.0,1.0,0
+28 Gilman St,Portland,ME,04102,01,2600,1000,2.0,1.0,0
+109 Glenwood Ave,Portland,ME,04103,#1,2400,1000,2.0,1.0,0
+269 Commercial St,Portland,ME,04101,5F,2500,878,1.0,1.0,0
+160 Washington Ave,Portland,ME,04101,2,2100,,2.0,1.0,0
+42 Hampshire St,Portland,ME,04101,#1,1995,,2.0,1.0,0
+10a-14 Alba St,Portland,ME,04103,14,2400,,3.0,1.0,0
+80 Vesper St,Portland,ME,04101,#3,2800,1116,2.0,1.0,0
+621-623 Washington Ave,Portland,ME,04103,621 Washington Ave.,2300,1072,2.0,1.0,0
+50 A St,South Portland,ME,04106,A,1700,,1.0,1.0,0
+48 E St,South Portland,ME,04106,A,3000,1428,3.0,2.5,0
+220 Veranda St,Portland,ME,04103,A,3750,1697,3.0,2.0,0
+200 Elm St,South Portland,ME,04106,A,2950,1250,3.0,1.0,0
+37 Barberry Creek Rd,South Portland,ME,04106,A,3000,2000,3.0,1.5,0
+310 Presumpscot St,Portland,ME,04103,A,2975,1167,3.0,1.5,0
+70 Angell Ave,South Portland,ME,04106,A-2,2100,,2.0,1.0,0
+1 Shoreline Dr,Falmouth,ME,04105,A-2,6950,,4.0,4.0,0
+84 Johnson Rd,Gorham,ME,04038,Main,4000,3500,5.0,2.5,0
+40 State St,Gorham,ME,04038,Charming One Bedroom,1500,600,1.0,1.0,0
+84 Johnson Rd,Gorham,ME,04038,Main,4000,3500,5.0,2.5,0
+40 State St,Gorham,ME,04038,Charming One Bedroom,1500,600,1.0,1.0,0
+162 Narragansett St,Gorham,ME,04038,11,1450,175,0,1.0,0
+162 Narragansett St,Gorham,ME,04038,10,1450,175,0,1.0,0
+162 Narragansett St,Gorham,ME,04038,9,1450,175,0,1.0,0
+162 Narragansett St,Gorham,ME,04038,1,1500,300,0,1.0,0
+162 Narragansett St,Gorham,ME,04038,7,1750,550,2.0,1.0,0
