@@ -26,7 +26,7 @@ cursor = db.cursor(dictionary=True)
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        token = request.cookies.get(token)
+        token = request.cookies.get('token')
 
         if not token:
             return jsonify({"error": "Session cookie not found."}), 401
