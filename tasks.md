@@ -16,28 +16,28 @@
 
 ### Performance Analysis & Optimization Report  
 *Deadline: 12/6/25*  
-- Ashley:  
-- Sophia:  
-- Jeffrey:  
-- Yunlong:  
+- Ashley: Signup, and Login analysis  
+- Sophia: Listing, and Property analysis 
+- Jeffrey: Profile, and Matching analysis   
+- Yunlong: Manage Properties, Add Property, and Settings analysis  
 
 ### User Manual & System Documentation  
 *Deadline: 12/7/25*  
-- Ashley:  
-- Sophia:  
-- Jeffrey:  
-- Yunlong:  
+- Ashley: Installation/setup instructions  
+- Sophia: Usage guide (Properties)  
+- Jeffrey: Usage guide (Matching)  
+- Yunlong: API Documentation  
 
 ### Recorded Video Demonstration  
 *Deadline: 12/7/25*  
-- Ashley:  
-- Sophia:  
-- Jeffrey:  
-- Yunlong:  
+- Ashley: Application setup   
+- Sophia: Database interactions  
+- Jeffrey: Frontend functionality  
+- Yunlong: Backend API calls  
 
 ### In-Class Presentation  
 *Deadline: 12/7/25*  
-- Ashley:  
-- Sophia:  
-- Jeffrey:  
-- Yunlong:  
+- Ashley: Key features   
+- Sophia: Overview  
+- Jeffrey: Lessons learned  
+- Yunlong: Key features  
