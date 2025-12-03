@@ -116,6 +116,121 @@ def login():
 
     return resp, 200
 
+@app.get("/api/properties")
+def get_properties():
+    """
+    Return a JSON list of properties joined with their address info.
+    No login required for now.
+    """
+    try:
+        cursor.execute(
+            """
+            SELECT
+                P.PROPERTY_ID,
+                P.UNIT_LABEL,
+                P.RENT_COST,
+                P.BEDROOMS,
+                P.BATHROOMS,
+                P.CAN_RENT,
+                P.SQFT,
+                A.CITY,
+                A.STATE_CODE
+            FROM PROPERTY AS P
+            JOIN ADDRESS AS A
+              ON P.ADDR_ID = A.ADDR_ID
+            """
+        )
+        rows = cursor.fetchall()
+
+        properties = []
+        for row in rows:
+            beds = row["BEDROOMS"]
+            baths = row["BATHROOMS"]
+            title = row["UNIT_LABEL"]
+
+            # Fallback title if UNIT_LABEL is null/empty
+            if not title:
+                bits = []
+                if beds is not None:
+                    bits.append(f"{int(beds)} bed")
+                if baths is not None:
+                    # make baths look nice, e.g. "1.5 bath"
+                    baths_str = str(float(baths)).rstrip("0").rstrip(".")
+                    bits.append(f"{baths_str} bath")
+                if bits:
+                    title = " ".join(bits)
+                else:
+                    title = f"Unit {row['PROPERTY_ID']}"
+
+            properties.append(
+                {
+                    "id": row["PROPERTY_ID"],
+                    "title": title,
+                    "rent": row["RENT_COST"],
+                    "beds": float(beds) if beds is not None else None,
+                    "baths": float(baths) if baths is not None else None,
+                    "canRent": bool(row["CAN_RENT"]),
+                    "sqft": row["SQFT"],
+                    "city": row["CITY"],
+                    "state": row["STATE_CODE"],
+                }
+            )
+
+        return jsonify(properties), 200
+
+    except Exception as e:
+        print("Error in /api/properties:", e)
+        return jsonify({"error": "Failed to load properties"}), 500
+
+@app.post("/get_listings")
+def get_listings():
+
+    try:
+        data = request.get_json(silent=True) or {}
+
+        city = data.get("city")
+        min_rent = data.get("minRent")
+        max_rent = data.get("maxRent")
+
+        sql = """
+            SELECT
+                P.PROPERTY_ID,
+                A.STREET,
+                A.CITY,
+                A.STATE_CODE,
+                A.ZIPCODE,
+                P.RENT_COST,
+                P.BEDROOMS,
+                P.BATHROOMS,
+                P.CAN_RENT
+            FROM PROPERTY P
+            JOIN ADDRESS A ON P.ADDR_ID = A.ADDR_ID
+            WHERE 1=1
+        """
+        params = []
+
+        if city:
+            sql += " AND A.CITY LIKE %s"
+            params.append(f"%{city}%")
+
+        if min_rent is not None:
+            sql += " AND P.RENT_COST >= %s"
+            params.append(min_rent)
+
+        if max_rent is not None:
+            sql += " AND P.RENT_COST <= %s"
+            params.append(max_rent)
+
+        cursor.execute(sql, tuple(params))
+        rows = cursor.fetchall()
+
+        return jsonify(rows), 200
+
+    except Exception as e:
+        print("ERROR in /get_listings:", e)
+        return jsonify({"error": "Server error loading properties"}), 500
+
+
 
 if __name__ == "__main__":
     
@@ -123,7 +238,7 @@ if __name__ == "__main__":
     ssl_key = os.getenv("SSL_KEY_PATH")
 
     if ssl_cert and ssl_key and os.path.exists(ssl_cert) and os.path.exists(ssl_key):
-        print(f"🔐 Starting HTTPS backend on https://localhost:5000")
+        print(f" Starting HTTPS backend on https://localhost:5000")
         app.run(
             host="localhost",
             port=5000,
