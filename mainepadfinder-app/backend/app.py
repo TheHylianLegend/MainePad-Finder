@@ -14,6 +14,8 @@ load_dotenv()
 app = Flask(__name__)
 CORS(app, supports_credentials=True, origins=["https://localhost:5173"])  # allows frontend to communicate with backend
 
+
+# Connects the backend to the MySQL database
 db = mysql.connector.connect(
     host = os.getenv("DB_HOST"),
     user = os.getenv("DB_USER"),
@@ -22,7 +24,7 @@ db = mysql.connector.connect(
 )
 cursor = db.cursor(dictionary=True)
 
-
+# This decorator wraps a function with a check to see if the user has a valid token before proceeding
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -44,7 +46,7 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
-
+# Signup allows a new user to be added to the database corresponding to the provided user data
 @app.post("/api/signup")
 def signup():
     data = request.get_json()
@@ -82,7 +84,8 @@ def signup():
 
 
     
-
+# This function checks supplied username and password against the database
+# and provides a session token to the user for authentication
 @app.post("/api/login")
 def login():
     data = request.get_json()
