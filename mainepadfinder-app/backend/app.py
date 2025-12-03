@@ -118,9 +118,23 @@ def login():
 
 
 if __name__ == "__main__":
-    app.run(
-        host='localhost',
-        port=5000,
-        ssl_context=(os.getenv('SSL_CERT_PATH'), os.getenv('SSL_KEY_PATH')),
-        debug=True
-    )
+    
+    ssl_cert = os.getenv("SSL_CERT_PATH")
+    ssl_key = os.getenv("SSL_KEY_PATH")
+
+    if ssl_cert and ssl_key and os.path.exists(ssl_cert) and os.path.exists(ssl_key):
+        print(f"🔐 Starting HTTPS backend on https://localhost:5000")
+        app.run(
+            host="localhost",
+            port=5000,
+            ssl_context=(ssl_cert, ssl_key),
+            debug=True,
+        )
+    else:
+        print("SSL cert/key missing – starting HTTP backend on http://localhost:5000")
+        app.run(
+            host="localhost",
+            port=5000,
+            debug=True,
+        )
+
