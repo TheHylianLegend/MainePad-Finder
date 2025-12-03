@@ -79,9 +79,17 @@ def signup():
 
     return jsonify({"message": "User created successfully"}), 201
 
+# get_prof_details() written by Jeffrey Fosgate (December 3, 2025)
+@app.get("/api/profile")
+@login_required
+def get_prof_details():
+    cursor.execute("SELECT * FROM USERS WHERE USER_ID = %s", (g.user_id))
+    prof_details = cursor.fetchone()
 
-
+    if not prof_details:
+        return jsonify({"error": "Profile not found."}), 404
     
+    return jsonify(prof_details, status=200)
 
 @app.post("/api/login")
 def login():
