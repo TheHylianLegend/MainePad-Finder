@@ -116,16 +116,32 @@ def login():
 
     return resp, 200
 
-@app.get("/api/properties")
+@app.post("/api/properties")
 def get_properties():
     """
-    Return a JSON list of properties joined with their address info.
-    No login required for now.
+    Return property listings joined with ADDRESS, filtered in SQL.
+    Expects JSON body like:
+    {
+        "city": "Portland",
+        "minRent": 1000,
+        "maxRent": 2500,
+        "minBeds": 2,
+        "minBaths": 1
+    }
+    All keys are optional.
     """
     try:
-        cursor.execute(
-            """
-            SELECT
+        data = request.get_json(silent=True) or {}
+
+        city = data.get("city")
+        min_rent = data.get("minRent")
+        max_rent = data.get("maxRent")
+        min_beds = data.get("minBeds")
+        min_baths = data.get("minBaths")
+
+        # Base query: join PROPERTY + ADDRESS, then add WHERE conditions as needed
+        sql = """
+            SELECT 
                 P.PROPERTY_ID,
                 P.UNIT_LABEL,
                 P.RENT_COST,
@@ -138,73 +154,6 @@ def get_properties():
             FROM PROPERTY AS P
             JOIN ADDRESS AS A
               ON P.ADDR_ID = A.ADDR_ID
-            """
-        )
-        rows = cursor.fetchall()
-
-        properties = []
-        for row in rows:
-            beds = row["BEDROOMS"]
-            baths = row["BATHROOMS"]
-            title = row["UNIT_LABEL"]
-
-            # Fallback title if UNIT_LABEL is null/empty
-            if not title:
-                bits = []
-                if beds is not None:
-                    bits.append(f"{int(beds)} bed")
-                if baths is not None:
-                    # make baths look nice, e.g. "1.5 bath"
-                    baths_str = str(float(baths)).rstrip("0").rstrip(".")
-                    bits.append(f"{baths_str} bath")
-                if bits:
-                    title = " ".join(bits)
-                else:
-                    title = f"Unit {row['PROPERTY_ID']}"
-
-            properties.append(
-                {
-                    "id": row["PROPERTY_ID"],
-                    "title": title,
-                    "rent": row["RENT_COST"],
-                    "beds": float(beds) if beds is not None else None,
-                    "baths": float(baths) if baths is not None else None,
-                    "canRent": bool(row["CAN_RENT"]),
-                    "sqft": row["SQFT"],
-                    "city": row["CITY"],
-                    "state": row["STATE_CODE"],
-                }
-            )
-
-        return jsonify(properties), 200
-
-    except Exception as e:
-        print("Error in /api/properties:", e)
-        return jsonify({"error": "Failed to load properties"}), 500
-
-@app.post("/get_listings")
-def get_listings():
-
-    try:
-        data = request.get_json(silent=True) or {}
-
-        city = data.get("city")
-        min_rent = data.get("minRent")
-        max_rent = data.get("maxRent")
-
-        sql = """
-            SELECT
-                P.PROPERTY_ID,
-                A.STREET,
-                A.CITY,
-                A.STATE_CODE,
-                A.ZIPCODE,
-                P.RENT_COST,
-                P.BEDROOMS,
-                P.BATHROOMS,
-                P.CAN_RENT
-            FROM PROPERTY P
-            JOIN ADDRESS A ON P.ADDR_ID = A.ADDR_ID
             WHERE 1=1
         """
         params = []
@@ -221,15 +170,50 @@ def get_listings():
             sql += " AND P.RENT_COST <= %s"
             params.append(max_rent)
 
+        if min_beds is not None:
+            sql += " AND P.BEDROOMS >= %s"
+            params.append(min_beds)
+
+        if min_baths is not None:
+            sql += " AND P.BATHROOMS >= %s"
+            params.append(min_baths)
+
         cursor.execute(sql, tuple(params))
         rows = cursor.fetchall()
 
-        return jsonify(rows), 200
+        # Shape results into what the frontend expects
+        properties = []
+        for row in rows:
+            title = row["UNIT_LABEL"]
+            if not title:
+                pieces = []
+                if row["BEDROOMS"] is not None:
+                    pieces.append(f"{row['BEDROOMS']} bed")
+                if row["BATHROOMS"] is not None:
+                    pieces.append(f"{row['BATHROOMS']} bath")
+                title = " • ".join(pieces) if pieces else "Untitled unit"
+
+            properties.append({
+                "id": row["PROPERTY_ID"],
+                "title": title,
+                "rent": row["RENT_COST"],
+                "beds": row["BEDROOMS"],
+                "baths": row["BATHROOMS"],
+                "canRent": bool(row["CAN_RENT"]),
+                "sqft": row["SQFT"],
+                "city": row["CITY"],
+                "state": row["STATE_CODE"],
+            })
+
+        return jsonify(properties), 200
 
     except Exception as e:
-        print("ERROR in /get_listings:", e)
-        return jsonify({"error": "Server error loading properties"}), 500
+        print("Error in /api/properties:", e)
+        return jsonify({"error": "Failed to load properties"}), 500
 
+@app.get("/ping")
+def ping():
+    return jsonify({"ok": True}), 200
 
 
 if __name__ == "__main__":
@@ -246,10 +230,7 @@ if __name__ == "__main__":
             debug=True,
         )
     else:
-        print("SSL cert/key missing – starting HTTP backend on http://localhost:5000")
-        app.run(
-            host="localhost",
-            port=5000,
-            debug=True,
-        )
+        print("SSL cert/key missing")
+        
+        
 
