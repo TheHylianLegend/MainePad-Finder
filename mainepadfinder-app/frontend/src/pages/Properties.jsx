@@ -99,6 +99,33 @@ export default function Properties() {
     if (page < totalPages) setPage((p) => p + 1);
   };
 
+    // helper: interpret availability (your DB: 0 = available, 1 = not)
+  function isAvailableFromRaw(p) {
+    if (!p) return false;
+
+    const raw = "canRent" in p ? p.canRent : p.CAN_RENT;
+
+    if (typeof raw === "boolean") {
+      // backend sends bool from bool(CAN_RENT)
+      // false (from 0) = available, true (from 1) = not
+      return raw === false;
+    }
+
+    if (typeof raw === "number") {
+      // 0 = available, 1 = not
+      return raw === 0;
+    }
+
+    if (raw === null || raw === undefined) {
+      // scraped data with no flag we assume available so we don't hide it
+      return true;
+    }
+
+    // anything not normal, we treat as not available
+    return false;
+  }
+
+
   return (
     <div style={{ padding: "2rem 3rem" }}>
       <h2>Browse Properties</h2>
@@ -247,19 +274,16 @@ export default function Properties() {
           const beds = p.beds ?? p.BEDROOMS;
           const baths = p.baths ?? p.BATHROOMS;
           const sqft = p.sqft ?? p.SQFT;
-          const canRentFlag =
-            "canRent" in p ? p.canRent : p.CAN_RENT;
+          const isAvailable = isAvailableFromRaw(p);
 
           const bedsLabel =
-            beds === 0
-              ? "Studio"
-              : `${beds ?? "?"} bed`;
+            beds === 0 ? "Studio" : `${beds ?? "?"} bed`;
 
           return (
             <Link
               key={id}
               to={`/listing/${id}`}
-              state={{ property: p }}
+              state={{ property: p, allProperties: properties }}
               style={{ textDecoration: "none", color: "inherit" }}
             >
               <div
@@ -283,7 +307,7 @@ export default function Properties() {
                   {bedsLabel} • {baths ?? "?"} bath
                 </p>
                 {sqft && <p>{sqft} sq ft</p>}
-                {canRentFlag ? (
+                {isAvailable ? (
                   <p style={{ color: "green", fontWeight: "bold" }}>
                     Available
                   </p>
