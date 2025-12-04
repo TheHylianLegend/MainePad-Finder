@@ -22,7 +22,7 @@ export default function Properties() {
 
     const body = {};
 
-    // filters on properties page 
+    // filters on properties page
     if (useFilters) {
       body.city = city.trim() || null;
       body.minRent = minRent === "" ? null : Number(minRent);
@@ -99,7 +99,7 @@ export default function Properties() {
     if (page < totalPages) setPage((p) => p + 1);
   };
 
-    // helper: interpret availability (your DB: 0 = available, 1 = not)
+  // helper: interpret availability (your DB: 0 = available, 1 = not)
   function isAvailableFromRaw(p) {
     if (!p) return false;
 
@@ -117,14 +117,13 @@ export default function Properties() {
     }
 
     if (raw === null || raw === undefined) {
-      // scraped data with no flag we assume available so we don't hide it
+      // scraped data without flag assume available so we don't hide it
       return true;
     }
 
-    // anything not normal, we treat as not available
+    // anything weird, treat as not available
     return false;
   }
-
 
   return (
     <div style={{ padding: "2rem 3rem" }}>
@@ -183,9 +182,10 @@ export default function Properties() {
             id="minBeds"
             type="number"
             placeholder="e.g., 2"
+            value={minBeds}
             onChange={(e) => setMinBeds(e.target.value)}
-            min="0"        // 0 = Studio; cannot go negative
-            step="1"       // only whole numbers
+            min="0"   // 0 = Studio, cannot go negative
+            step="1"  // only whole numbers
           />
         </div>
 
@@ -197,8 +197,8 @@ export default function Properties() {
             placeholder="e.g., 1"
             value={minBaths}
             onChange={(e) => setMinBaths(e.target.value)}
-            min="1" //houses should not have less than one bath 
-            step="1" // only whole numbers 
+            min="1"   // should not be less than one bath
+            step="1"  // only whole numbers
           />
         </div>
 
@@ -261,7 +261,7 @@ export default function Properties() {
         </div>
       </div>
 
-      {/* Results grid – now CLICKABLE to Listings page */}
+      {/* Results grid – CLICKABLE to Listing page */}
       <div
         style={{
           display: "grid",
@@ -273,11 +273,13 @@ export default function Properties() {
           const id = p.id ?? p.PROPERTY_ID;
           const beds = p.beds ?? p.BEDROOMS;
           const baths = p.baths ?? p.BATHROOMS;
-          const sqft = p.sqft ?? p.SQFT;
           const isAvailable = isAvailableFromRaw(p);
 
           const bedsLabel =
             beds === 0 ? "Studio" : `${beds ?? "?"} bed`;
+
+          const city = p.city ?? p.CITY ?? "Unknown city";
+          const rent = p.rent ?? p.RENT_COST;
 
           return (
             <Link
@@ -295,18 +297,20 @@ export default function Properties() {
                   cursor: "pointer",
                 }}
               >
-                <h3>{p.title || p.UNIT_LABEL || "Untitled unit"}</h3>
+                {/* City as the main title */}
+                <h3>{city}</h3>
+
+                {/* How much per month */}
                 <p>
-                  {(p.city || p.CITY || "Unknown city")},{" "}
-                  {(p.state || p.STATE_CODE || "??")}
+                  <strong>${rent}</strong> / month
                 </p>
-                <p>
-                  <strong>${p.rent ?? p.RENT_COST}</strong> / month
-                </p>
+
+                {/* Beds + baths */}
                 <p>
                   {bedsLabel} • {baths ?? "?"} bath
                 </p>
-                {sqft && <p>{sqft} sq ft</p>}
+
+                {/* Availability only */}
                 {isAvailable ? (
                   <p style={{ color: "green", fontWeight: "bold" }}>
                     Available

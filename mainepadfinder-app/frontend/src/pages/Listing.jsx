@@ -1,42 +1,36 @@
-// mainepadfinder-app/frontend/src/pages/Listings.jsx
-import { useState } from "react";
+// mainepadfinder-app/frontend/src/pages/Listing.jsx
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useMemo } from "react";
 
-export default function Listings() {
-  const [listings, setListings] = useState([]);
-  const [selected, setSelected] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+export default function Listing() {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { id } = useParams(); // /listing/:id
 
-  // helper: interpret the raw flag according to your schema
-  function isAvailableFromRaw(listing) {
-    const raw =
-      "canRent" in listing ? listing.canRent : listing.CAN_RENT;
+  const property = location.state?.property || null;
+  const allProperties = location.state?.allProperties || null;
 
-    // If it's a boolean, assume false = available, true = not available
+  // Interpret availability CAN_RENT = available 
+  function isAvailableFromRaw(p) {
+    if (!p) return false;
+
+    const raw = "canRent" in p ? p.canRent : p.CAN_RENT;
+
     if (typeof raw === "boolean") {
+      // false (from 0) = available, true (from 1) = not
       return raw === false;
     }
 
-    // If it's a number 
     if (typeof raw === "number") {
-      // 0 mean available
-      return raw === 0;
+      return raw === 0; // 0 = available
     }
 
-    // If it's null / undefined, treat as available so we don't hide scraped data accidentally
     if (raw === null || raw === undefined) {
+      // unknown treat as available
       return true;
     }
 
-    // Fallback: treat anything else as NOT available
     return false;
-  }
-
-  // helper: format bedrooms nicely (0 = Studio)
-  function formatBedsShort(beds) {
-    if (beds === 0) return "Studio";
-    if (beds == null) return "? bed";
-    return `${beds} bed`;
   }
 
   function formatBedsDetail(beds) {
@@ -46,241 +40,269 @@ export default function Listings() {
     return `${beds} bedrooms`;
   }
 
-  async function loadListings() {
-    setLoading(true);
-    setError("");
+  // Normalize everything we care about
+  function normalize(p) {
+    if (!p) return null;
+    const available = isAvailableFromRaw(p);
 
-    try {
-      const response = await fetch("https://localhost:5000/api/properties", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        // Load all properties: no filters
-        body: JSON.stringify({
-          city: null,
-          minRent: null,
-          maxRent: null,
-          minBeds: null,
-          minBaths: null,
-        }),
-      });
+    const city = p.city ?? p.CITY ?? "Unknown city";
+    const state = p.state ?? p.STATE_CODE ?? "??";
 
-      const data = await response.json();
+    const addressLine1 = p.addressLine1 ?? p.ADDRESS_LINE1 ?? null;
+    const addressLine2 = p.addressLine2 ?? p.ADDRESS_LINE2 ?? null;
+    const zipCode = p.zipCode ?? p.ZIP_CODE ?? null;
 
-      if (!response.ok) {
-        setError(data.error || `Request failed with status ${response.status}`);
-        setListings([]);
-        setSelected(null);
-        return;
-      }
+    const unitLabel = p.unitLabel ?? p.UNIT_LABEL ?? null;
 
-      // keep only AVAILABLE listings (CAN_RENT = 0 in our DB)
-      const available = data.filter((l) => isAvailableFromRaw(l));
-
-      setListings(available);
-      setSelected(available.length > 0 ? available[0] : null); // auto-select first available
-    } catch (err) {
-      console.error("Error loading listings:", err);
-      setError("Could not load listings (network error).");
-      setListings([]);
-      setSelected(null);
-    } finally {
-      setLoading(false);
+    // Our heading is address if we have it, otherwise city + state
+    let heading = addressLine1;
+    if (!heading) {
+      heading = `${city}, ${state}`;
     }
-  }
-
-  function handleSelect(listing) {
-    setSelected(listing);
-  }
-
-  // Helper to handle mixed key names 
-  function normalize(listing) {
-    if (!listing) return null;
-
-    const available = isAvailableFromRaw(listing);
 
     return {
-      id: listing.id ?? listing.PROPERTY_ID,
-      title: listing.title ?? listing.UNIT_LABEL ?? "Untitled unit",
-      city: listing.city ?? listing.CITY ?? "Unknown city",
-      state: listing.state ?? listing.STATE_CODE ?? "??",
-      rent: listing.rent ?? listing.RENT_COST,
-      beds: listing.beds ?? listing.BEDROOMS,
-      baths: listing.baths ?? listing.BATHROOMS,
-      sqft: listing.sqft ?? listing.SQFT,
-      // canRent here means "is available to rent"
+      id: p.id ?? p.PROPERTY_ID ?? id,
+      heading,
+      addressLine1,
+      addressLine2,
+      city,
+      state,
+      zipCode,
+      unitLabel,
+      rent: p.rent ?? p.RENT_COST,
+      beds: p.beds ?? p.BEDROOMS,
+      baths: p.baths ?? p.BATHROOMS,
+      sqft: p.sqft ?? p.SQFT,
       canRent: available,
-      raw: listing,
+      landlordName: p.landlordName ?? p.LANDLORD_NAME ?? null,
+      landlordEmail: p.landlordEmail ?? p.LANDLORD_EMAIL ?? null,
+      raw: p,
     };
   }
 
-  const normalizedSelected = normalize(selected);
+  const n = normalize(property);
+
+  // Prev and Next navigation for listing page
+  const { indexInList, totalInList } = useMemo(() => {
+    if (!allProperties || !property) return { indexInList: null, totalInList: null };
+
+    const thisId = property.id ?? property.PROPERTY_ID ?? id;
+    const idx = allProperties.findIndex(
+      (p) => (p.id ?? p.PROPERTY_ID) === thisId
+    );
+
+    return {
+      indexInList: idx === -1 ? null : idx,
+      totalInList: allProperties.length,
+    };
+  }, [allProperties, property, id]);
+
+  function goToIndex(newIndex) {
+    if (!allProperties || newIndex == null) return;
+    if (newIndex < 0 || newIndex >= allProperties.length) return;
+
+    const nextProp = allProperties[newIndex];
+    const nextId = nextProp.id ?? nextProp.PROPERTY_ID;
+
+    navigate(`/listing/${nextId}`, {
+      state: { property: nextProp, allProperties },
+    });
+  }
+
+  function handlePrev() {
+    if (indexInList == null) return;
+    goToIndex(indexInList - 1);
+  }
+
+  function handleNext() {
+    if (indexInList == null) return;
+    goToIndex(indexInList + 1);
+  }
+
+  // If user hit /listing/:id directly, show message 
+  if (!property || !n) {
+    return (
+      <div style={{ padding: "2rem 3rem" }}>
+        <button
+          type="button"
+          onClick={() => navigate("/properties")}
+          style={{
+            marginBottom: "1rem",
+            padding: "0.4rem 0.9rem",
+            borderRadius: "999px",
+            border: "1px solid #e5e7eb",
+            background: "white",
+            cursor: "pointer",
+          }}
+        >
+          ← Back to Properties
+        </button>
+        <h2>Listing not loaded</h2>
+        <p style={{ maxWidth: "520px" }}>
+          We couldn&apos;t load this listing directly. Please go back to the{" "}
+          <strong>Properties</strong> page and click on a property to view its
+          details.
+        </p>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: "2rem 3rem" }}>
-      <h2>Listings</h2>
-      <p style={{ maxWidth: "650px" }}>
-        Load listings from the database and view details for each rental.
-        Only currently available properties are shown here.
-      </p>
-
-      {/* Top controls */}
-      <div
+      <button
+        type="button"
+        onClick={() => navigate(-1)}
         style={{
-          margin: "1rem 0",
-          display: "flex",
-          alignItems: "center",
-          gap: "1rem",
-          flexWrap: "wrap",
+          marginBottom: "1rem",
+          padding: "0.4rem 0.9rem",
+          borderRadius: "999px",
+          border: "1px solid #e5e7eb",
+          background: "white",
+          cursor: "pointer",
         }}
       >
-        <button onClick={loadListings} disabled={loading}>
-          {loading ? "Loading..." : "Load listings"}
-        </button>
+        ← Back to Properties
+      </button>
 
-        <span>
-          {listings.length > 0 ? (
-            <>
-              <strong>{listings.length}</strong> available listing
-              {listings.length === 1 ? "" : "s"}
-            </>
-          ) : (
-            "No available listings loaded yet"
-          )}{" "}
-        </span>
+      {indexInList != null && totalInList != null && (
+        <p style={{ margin: "0 0 0.75rem 0", color: "#555" }}>
+          Listing <strong>{indexInList + 1}</strong> of{" "}
+          <strong>{totalInList}</strong>
+        </p>
+      )}
 
-        {error && <span style={{ color: "red" }}>{error}</span>}
-      </div>
-
-      {/* Main layout: list on the left, details on the right */}
       <div
         style={{
-          display: "grid",
-          gridTemplateColumns: "minmax(220px, 1.2fr) 2fr",
-          gap: "1.5rem",
-          minHeight: "300px",
+          border: "1px solid #e5e7eb",
+          borderRadius: "12px",
+          padding: "1.5rem 1.75rem",
+          maxWidth: "720px",
+          background: "#ffffff",
+          boxShadow: "0 10px 30px rgba(15, 23, 42, 0.08)",
         }}
       >
-        {/* Left: list of listings */}
-        <div
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "0.5rem",
-            maxHeight: "480px",
-            overflowY: "auto",
-            background: "#fafafa",
-          }}
-        >
-          {listings.length === 0 && (
-            <p style={{ padding: "0.5rem" }}>
-              Click <strong>Load Listings</strong> to display currently
-              available properties.
-            </p>
-          )}
+        {/* Big heading = address or city/state */}
+        <h2 style={{ marginTop: 0 }}>{n.heading}</h2>
 
-          {listings.map((l) => {
-            const n = normalize(l);
-            const isActive = selected && n.id === normalizedSelected?.id;
-
-            return (
-              <button
-                key={n.id}
-                type="button"
-                onClick={() => handleSelect(l)}
-                style={{
-                  width: "100%",
-                  textAlign: "left",
-                  border: "none",
-                  borderRadius: "6px",
-                  padding: "0.5rem 0.75rem",
-                  marginBottom: "0.35rem",
-                  cursor: "pointer",
-                  background: isActive ? "#e0f2ff" : "white",
-                  boxShadow: isActive
-                    ? "0 0 0 1px #3b82f6"
-                    : "0 0 0 1px #e5e7eb",
-                }}
-              >
-                <div style={{ fontWeight: 600 }}>{n.title}</div>
-                <div style={{ fontSize: "0.9rem", color: "#555" }}>
-                  {n.city}, {n.state}
-                </div>
-                <div style={{ fontSize: "0.9rem", marginTop: "0.15rem" }}>
-                  {formatBedsShort(n.beds)} • {n.baths ?? "?"} bath
-                </div>
-                <div style={{ fontSize: "0.9rem", marginTop: "0.15rem" }}>
-                  <strong>${n.rent}</strong> / month
-                </div>
-              </button>
-            );
-          })}
+        {/* Full address block */}
+        <div style={{ marginBottom: "0.75rem", color: "#555" }}>
+          {n.addressLine1 && <div>{n.addressLine1}</div>}
+          {n.addressLine2 && <div>{n.addressLine2}</div>}
+          <div>
+            {n.city}, {n.state} {n.zipCode || ""}
+          </div>
         </div>
 
-        {/* Right: detail view */}
-        <div
-          style={{
-            border: "1px solid #ddd",
-            borderRadius: "8px",
-            padding: "1rem 1.25rem",
-            minHeight: "250px",
-          }}
-        >
-          {!normalizedSelected ? (
-            <p>Select a listing on the left to see details.</p>
+        {/* Unit number */}
+        <p>
+          <strong>Unit: </strong>
+          {n.unitLabel || "N/A"}
+        </p>
+
+        {/* Rent */}
+        <p style={{ fontSize: "1.2rem" }}>
+          <strong>${n.rent}</strong> / month
+        </p>
+
+        {/* Beds & baths */}
+        <p>
+          <strong>Bedrooms: </strong>
+          {formatBedsDetail(n.beds)}
+        </p>
+        <p>
+          <strong>Bathrooms: </strong>
+          {n.baths ?? "Unknown"}
+        </p>
+
+        {/* Optional sqft */}
+        {n.sqft && (
+          <p>
+            <strong>Square footage: </strong>
+            {n.sqft} sq ft
+          </p>
+        )}
+
+        {/* Availability */}
+        <p>
+          <strong>Status: </strong>
+          {n.canRent ? (
+            <span style={{ color: "green", fontWeight: "bold" }}>
+              Available to rent
+            </span>
           ) : (
-            <>
-              <h3 style={{ marginTop: 0 }}>{normalizedSelected.title}</h3>
-              <p style={{ margin: "0.25rem 0 0.5rem 0", color: "#555" }}>
-                {normalizedSelected.city}, {normalizedSelected.state}
-              </p>
-
-              <p style={{ fontSize: "1.1rem" }}>
-                <strong>${normalizedSelected.rent}</strong> / month
-              </p>
-
-              <p>
-                <strong>Bedrooms:</strong>{" "}
-                {formatBedsDetail(normalizedSelected.beds)}
-              </p>
-              <p>
-                <strong>Bathrooms:</strong>{" "}
-                {normalizedSelected.baths ?? "Unknown"}
-              </p>
-              {normalizedSelected.sqft && (
-                <p>
-                  <strong>Square footage:</strong>{" "}
-                  {normalizedSelected.sqft} sq ft
-                </p>
-              )}
-
-              <p>
-                <strong>Status:</strong>{" "}
-                {normalizedSelected.canRent ? (
-                  <span style={{ color: "green", fontWeight: "bold" }}>
-                    Available to rent
-                  </span>
-                ) : (
-                  <span style={{ color: "gray" }}>Not currently available</span>
-                )}
-              </p>
-
-              <p>
-                <strong>Internal ID:</strong> {normalizedSelected.id}
-              </p>
-
-              <hr style={{ margin: "1rem 0" }} />
-
-              <p style={{ fontSize: "0.9rem", color: "#666" }}>
-                I will put more info here like contact landlord or a way to
-                favorite the listing (save for later).
-              </p>
-            </>
+            <span style={{ color: "gray" }}>Not currently available</span>
           )}
-        </div>
+        </p>
+
+        {/* Landlord */}
+        <p>
+          <strong>Landlord: </strong>
+          {n.landlordName ? n.landlordName : "Not specified"}
+        </p>
+        {n.landlordEmail && (
+          <p>
+            <strong>Contact email: </strong>
+            <a href={`mailto:${n.landlordEmail}`}>{n.landlordEmail}</a>
+          </p>
+        )}
+
+        <p>
+          <strong>Internal ID: </strong>
+          {n.id}
+        </p>
+
+        <hr style={{ margin: "1rem 0" }} />
+
+        <p style={{ fontSize: "0.9rem", color: "#666" }}>
+          This page will later include things like contact landlord actions and
+          a way to favorite the listing (save for later).
+        </p>
+
+        {indexInList != null && totalInList != null && totalInList > 1 && (
+          <div
+            style={{
+              marginTop: "1rem",
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "0.5rem",
+              flexWrap: "wrap",
+            }}
+          >
+            <button
+              type="button"
+              onClick={handlePrev}
+              disabled={indexInList <= 0}
+              style={{
+                padding: "0.4rem 0.9rem",
+                borderRadius: "999px",
+                border: "1px solid #e5e7eb",
+                background:
+                  indexInList <= 0 ? "#f9fafb" : "white",
+                cursor: indexInList <= 0 ? "default" : "pointer",
+              }}
+            >
+              ← Previous listing
+            </button>
+            <button
+              type="button"
+              onClick={handleNext}
+              disabled={indexInList >= totalInList - 1}
+              style={{
+                padding: "0.4rem 0.9rem",
+                borderRadius: "999px",
+                border: "1px solid #e5e7eb",
+                background:
+                  indexInList >= totalInList - 1 ? "#f9fafb" : "white",
+                cursor:
+                  indexInList >= totalInList - 1 ? "default" : "pointer",
+              }}
+            >
+              Next listing →
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
+
