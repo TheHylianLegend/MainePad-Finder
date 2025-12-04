@@ -12,13 +12,23 @@ import secrets
 load_dotenv()
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True, origins=["https://localhost:5173"])  # allows frontend to communicate with backend
+CORS(
+    app,
+    supports_credentials=True,
+    origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+        "https://localhost:5173",
+    ],
+)
+
 
 db = mysql.connector.connect(
     host = os.getenv("DB_HOST"),
     user = os.getenv("DB_USER"),
     password = os.getenv("DB_PASSWORD"),
-    database = os.getenv("DB_NAME")
+    database = os.getenv("DB_NAME"),
+    ssl_disabled=True 
 )
 cursor = db.cursor(dictionary=True)
 
@@ -210,11 +220,6 @@ def get_properties():
     except Exception as e:
         print("Error in /api/properties:", e)
         return jsonify({"error": "Failed to load properties"}), 500
-
-@app.get("/ping")
-def ping():
-    return jsonify({"ok": True}), 200
-
 
 if __name__ == "__main__":
     
