@@ -1,5 +1,6 @@
 // mainepadfinder-app/frontend/src/pages/Properties.jsx
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const PAGE_SIZE = 10;
 
@@ -21,7 +22,7 @@ export default function Properties() {
 
     const body = {};
 
-    //filters on properties page 
+    // filters on properties page 
     if (useFilters) {
       body.city = city.trim() || null;
       body.minRent = minRent === "" ? null : Number(minRent);
@@ -43,7 +44,7 @@ export default function Properties() {
         headers: {
           "Content-Type": "application/json",
         },
-        credentials: "include", 
+        credentials: "include",
         body: JSON.stringify(body),
       });
 
@@ -75,7 +76,7 @@ export default function Properties() {
 
   const handleNoFilters = (e) => {
     e.preventDefault();
-    
+
     setCity("");
     setMinRent("");
     setMaxRent("");
@@ -102,7 +103,7 @@ export default function Properties() {
     <div style={{ padding: "2rem 3rem" }}>
       <h2>Browse Properties</h2>
       <p style={{ maxWidth: "600px" }}>
-        Apply filter below to find the perfect rental property in Maine!
+        Apply filters below to find the perfect rental property in Maine!
       </p>
 
       {/* Filter Form */}
@@ -155,8 +156,9 @@ export default function Properties() {
             id="minBeds"
             type="number"
             placeholder="e.g., 2"
-            value={minBeds}
             onChange={(e) => setMinBeds(e.target.value)}
+            min="0"        // 0 = Studio; cannot go negative
+            step="1"       // only whole numbers
           />
         </div>
 
@@ -168,6 +170,8 @@ export default function Properties() {
             placeholder="e.g., 1"
             value={minBaths}
             onChange={(e) => setMinBaths(e.target.value)}
+            min="1" //houses should not have less than one bath 
+            step="1" // only whole numbers 
           />
         </div>
 
@@ -215,7 +219,10 @@ export default function Properties() {
         </p>
 
         <div style={{ display: "flex", gap: "0.5rem" }}>
-          <button onClick={handlePrevPage} disabled={page === 1 || totalResults === 0}>
+          <button
+            onClick={handlePrevPage}
+            disabled={page === 1 || totalResults === 0}
+          >
             Previous
           </button>
           <button
@@ -227,7 +234,7 @@ export default function Properties() {
         </div>
       </div>
 
-      {/* Results grid – VIEW ONLY */}
+      {/* Results grid – now CLICKABLE to Listings page */}
       <div
         style={{
           display: "grid",
@@ -235,38 +242,59 @@ export default function Properties() {
           gap: "1rem",
         }}
       >
-        {currentSlice.map((p) => (
-          <div
-            key={p.id ?? p.PROPERTY_ID}
-            style={{
-              border: "1px solid #ccc",
-              padding: "1rem",
-              borderRadius: "8px",
-              background: "#fafafa",
-            }}
-          >
-            <h3>{p.title || p.UNIT_LABEL || "Untitled unit"}</h3>
-            <p>
-              {(p.city || p.CITY || "Unknown city")},{" "}
-              {(p.state || p.STATE_CODE || "??")}
-            </p>
-            <p>
-              <strong>${p.rent ?? p.RENT_COST}</strong> / month
-            </p>
-            <p>
-              {(p.beds ?? p.BEDROOMS ?? "?")} bed •{" "}
-              {(p.baths ?? p.BATHROOMS ?? "?")} bath
-            </p>
-            {(p.sqft ?? p.SQFT) && <p>{p.sqft ?? p.SQFT} sq ft</p>}
-            {p.canRent ?? p.CAN_RENT ? (
-              <p style={{ color: "green", fontWeight: "bold" }}>Available</p>
-            ) : (
-              <p style={{ color: "gray" }}>Not available</p>
-            )}
-          </div>
-        ))}
+        {currentSlice.map((p) => {
+          const id = p.id ?? p.PROPERTY_ID;
+          const beds = p.beds ?? p.BEDROOMS;
+          const baths = p.baths ?? p.BATHROOMS;
+          const sqft = p.sqft ?? p.SQFT;
+          const canRentFlag =
+            "canRent" in p ? p.canRent : p.CAN_RENT;
+
+          const bedsLabel =
+            beds === 0
+              ? "Studio"
+              : `${beds ?? "?"} bed`;
+
+          return (
+            <Link
+              key={id}
+              to={`/listing/${id}`}
+              state={{ property: p }}
+              style={{ textDecoration: "none", color: "inherit" }}
+            >
+              <div
+                style={{
+                  border: "1px solid #ccc",
+                  padding: "1rem",
+                  borderRadius: "8px",
+                  background: "#fafafa",
+                  cursor: "pointer",
+                }}
+              >
+                <h3>{p.title || p.UNIT_LABEL || "Untitled unit"}</h3>
+                <p>
+                  {(p.city || p.CITY || "Unknown city")},{" "}
+                  {(p.state || p.STATE_CODE || "??")}
+                </p>
+                <p>
+                  <strong>${p.rent ?? p.RENT_COST}</strong> / month
+                </p>
+                <p>
+                  {bedsLabel} • {baths ?? "?"} bath
+                </p>
+                {sqft && <p>{sqft} sq ft</p>}
+                {canRentFlag ? (
+                  <p style={{ color: "green", fontWeight: "bold" }}>
+                    Available
+                  </p>
+                ) : (
+                  <p style={{ color: "gray" }}>Not available</p>
+                )}
+              </div>
+            </Link>
+          );
+        })}
       </div>
     </div>
   );
 }
-

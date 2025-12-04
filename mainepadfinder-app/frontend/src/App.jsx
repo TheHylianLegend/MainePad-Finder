@@ -7,7 +7,7 @@ import Login from "./pages/Login.jsx";
 import Profile from "./pages/Profile.jsx";
 import Settings from "./pages/Settings.jsx";
 import Matching from "./pages/Matching.jsx";
-import Listings from "./pages/Listings.jsx";
+import Listing from "./pages/Listing.jsx";
 import Properties from "./pages/Properties.jsx";
 import ManageProperties from "./pages/ManageProperties.jsx";
 import AddProperty from "./pages/AddProperty.jsx";
@@ -151,7 +151,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/matching" element={<Matching />} />
-          <Route path="/listing/:id" element={<Listings />} />
+          <Route path="/listing/:id" element={<Listing />} />
           <Route path="/properties" element={<Properties />} />
           <Route path="/manage-properties" element={<ManageProperties />} />
           <Route path="/add-property" element={<AddProperty />} />
