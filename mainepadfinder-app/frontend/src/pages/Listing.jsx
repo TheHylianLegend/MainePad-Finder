@@ -7,6 +7,45 @@ export default function Listings() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // helper: interpret the raw flag according to your schema
+  function isAvailableFromRaw(listing) {
+    const raw =
+      "canRent" in listing ? listing.canRent : listing.CAN_RENT;
+
+    // If it's a boolean, assume false = available, true = not available
+    if (typeof raw === "boolean") {
+      return raw === false;
+    }
+
+    // If it's a number 
+    if (typeof raw === "number") {
+      // 0 mean available
+      return raw === 0;
+    }
+
+    // If it's null / undefined, treat as available so we don't hide scraped data accidentally
+    if (raw === null || raw === undefined) {
+      return true;
+    }
+
+    // Fallback: treat anything else as NOT available
+    return false;
+  }
+
+  // helper: format bedrooms nicely (0 = Studio)
+  function formatBedsShort(beds) {
+    if (beds === 0) return "Studio";
+    if (beds == null) return "? bed";
+    return `${beds} bed`;
+  }
+
+  function formatBedsDetail(beds) {
+    if (beds === 0) return "Studio";
+    if (beds == null) return "Unknown";
+    if (beds === 1) return "1 bedroom";
+    return `${beds} bedrooms`;
+  }
+
   async function loadListings() {
     setLoading(true);
     setError("");
@@ -37,8 +76,11 @@ export default function Listings() {
         return;
       }
 
-      setListings(data);
-      setSelected(data.length > 0 ? data[0] : null); // auto-select first
+      // keep only AVAILABLE listings (CAN_RENT = 0 in our DB)
+      const available = data.filter((l) => isAvailableFromRaw(l));
+
+      setListings(available);
+      setSelected(available.length > 0 ? available[0] : null); // auto-select first available
     } catch (err) {
       console.error("Error loading listings:", err);
       setError("Could not load listings (network error).");
@@ -56,6 +98,9 @@ export default function Listings() {
   // Helper to handle mixed key names 
   function normalize(listing) {
     if (!listing) return null;
+
+    const available = isAvailableFromRaw(listing);
+
     return {
       id: listing.id ?? listing.PROPERTY_ID,
       title: listing.title ?? listing.UNIT_LABEL ?? "Untitled unit",
@@ -65,10 +110,8 @@ export default function Listings() {
       beds: listing.beds ?? listing.BEDROOMS,
       baths: listing.baths ?? listing.BATHROOMS,
       sqft: listing.sqft ?? listing.SQFT,
-      canRent:
-        typeof listing.canRent === "boolean"
-          ? listing.canRent
-          : Boolean(listing.CAN_RENT),
+      // canRent here means "is available to rent"
+      canRent: available,
       raw: listing,
     };
   }
@@ -79,7 +122,8 @@ export default function Listings() {
     <div style={{ padding: "2rem 3rem" }}>
       <h2>Listings</h2>
       <p style={{ maxWidth: "650px" }}>
-        Load listings from the database and view details for each rental 
+        Load listings from the database and view details for each rental.
+        Only currently available properties are shown here.
       </p>
 
       {/* Top controls */}
@@ -98,9 +142,12 @@ export default function Listings() {
 
         <span>
           {listings.length > 0 ? (
-            <strong>{listings.length}</strong>
+            <>
+              <strong>{listings.length}</strong> available listing
+              {listings.length === 1 ? "" : "s"}
+            </>
           ) : (
-            "No listings loaded yet"
+            "No available listings loaded yet"
           )}{" "}
         </span>
 
@@ -129,7 +176,8 @@ export default function Listings() {
         >
           {listings.length === 0 && (
             <p style={{ padding: "0.5rem" }}>
-              Click Load Listings to display available properties
+              Click <strong>Load Listings</strong> to display currently
+              available properties.
             </p>
           )}
 
@@ -161,7 +209,7 @@ export default function Listings() {
                   {n.city}, {n.state}
                 </div>
                 <div style={{ fontSize: "0.9rem", marginTop: "0.15rem" }}>
-                  {n.beds ?? "?"} bed • {n.baths ?? "?"} bath
+                  {formatBedsShort(n.beds)} • {n.baths ?? "?"} bath
                 </div>
                 <div style={{ fontSize: "0.9rem", marginTop: "0.15rem" }}>
                   <strong>${n.rent}</strong> / month
@@ -194,7 +242,8 @@ export default function Listings() {
               </p>
 
               <p>
-                <strong>Bedrooms:</strong> {normalizedSelected.beds ?? "Unknown"}
+                <strong>Bedrooms:</strong>{" "}
+                {formatBedsDetail(normalizedSelected.beds)}
               </p>
               <p>
                 <strong>Bathrooms:</strong>{" "}
@@ -202,7 +251,8 @@ export default function Listings() {
               </p>
               {normalizedSelected.sqft && (
                 <p>
-                  <strong>Square footage:</strong> {normalizedSelected.sqft} sq ft
+                  <strong>Square footage:</strong>{" "}
+                  {normalizedSelected.sqft} sq ft
                 </p>
               )}
 
@@ -224,8 +274,8 @@ export default function Listings() {
               <hr style={{ margin: "1rem 0" }} />
 
               <p style={{ fontSize: "0.9rem", color: "#666" }}>
-                I will put more info here like contact landlord or a way to favorite the listing 
-                (save for later)
+                I will put more info here like contact landlord or a way to
+                favorite the listing (save for later).
               </p>
             </>
           )}
