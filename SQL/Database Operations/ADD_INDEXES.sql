@@ -11,11 +11,6 @@ CREATE INDEX IDX_EMAIL ON USERS(EMAIL);
 -- An index on DISPLAY_NAME allows MySQL to efficiently seek into the range of matching names instead of scanning every row.
 CREATE INDEX IDX_DISPLAY_NAME ON USERS(DISPLAY_NAME);
 
--- Some queries may filter users by age or birthdate range if it is a roomate preference. 
--- Indexing 'BIRTH_DATE' lets MySQL use a range scan on the date column, which is much more efficient than scanning all users when we need to select only a subset by birthdate.
-CREATE INDEX IDX_BIRTHDATE ON USERS(BIRTH_DATE);
-
-
 -- Our application supports queries that filter properties by a maximum or minimum rent amount.
 -- Without an index, MySQL would need to scan every property to check its rent.
 -- The 'IDX_RENT_ADDR' index allows MySQL to perform a scan based on a range on RENT_COST, 
