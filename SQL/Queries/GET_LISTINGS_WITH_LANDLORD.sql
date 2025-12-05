@@ -3,8 +3,9 @@
 -- Returns one row with property info, address info and 
 -- landlord contact info (if LANDLORD_ID is set)
 -- Scraped data will not have a landlord
+-- This is so users can contact landlords with any apartment queries
 
-USE mainepadfinder;
+USE MAINEPAD;
 
 DROP PROCEDURE IF EXISTS GET_LISTING_WITH_LANDLORD;
 
