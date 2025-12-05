@@ -120,7 +120,7 @@ def login():
 def get_properties():
     """
     Return property listings joined with ADDRESS, filtered in SQL.
-    Expects JSON body like:
+    Expects body like:
     {
         "city": "Portland",
         "minRent": 1000,
@@ -128,7 +128,7 @@ def get_properties():
         "minBeds": 2,
         "minBaths": 1
     }
-    All keys are optional.
+    All of the keys are optional
     """
     try:
         data = request.get_json(silent=True) or {}
@@ -210,6 +210,45 @@ def get_properties():
     except Exception as e:
         print("Error in /api/properties:", e)
         return jsonify({"error": "Failed to load properties"}), 500
+    
+@app.get("/api/listing/<int:property_id>")
+def get_listing_with_landlord(property_id):
+    try:
+        # Call the stored procedure
+        cursor.execute("CALL GET_LISTING_WITH_LANDLORD(%s)", (property_id,))
+        row = cursor.fetchone()
+
+        # Clear any remaining result sets from the CALL (safe to keep)
+        while cursor.nextset():
+            pass
+
+        if not row:
+            return jsonify({"error": "Listing not found"}), 404
+
+        # Just return fields directly, no fancy title or boolean conversion
+        result = {
+            "id": row["PROPERTY_ID"],
+            "unitLabel": row["UNIT_LABEL"],
+            "rent": row["RENT_COST"],
+            "beds": row["BEDROOMS"],
+            "baths": row["BATHROOMS"],
+            "sqft": row["SQFT"],
+            "canRent": row["CAN_RENT"],   # 0 = available, 1 = not
+            "city": row["CITY"],
+            "state": row["STATE_CODE"],
+            "zip": row.get("ZIP_CODE"),
+
+            "landlordName": row.get("LANDLORD_NAME"),
+            "landlordEmail": row.get("LANDLORD_EMAIL"),
+            "landlordPhone": row.get("LANDLORD_PHONE"),
+        }
+
+        return jsonify(result), 200
+
+    except Exception as e:
+        print("Error in /api/listing/<id>:", e)
+        return jsonify({"error": "Failed to load listing"}), 500
+
     
 @app.route("/api/properties/deals", methods=["POST"])
 def get_property_deals():

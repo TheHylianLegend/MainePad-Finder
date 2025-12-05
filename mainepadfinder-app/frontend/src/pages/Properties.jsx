@@ -374,10 +374,11 @@ export default function Properties() {
                   <p style={{ color: "gray" }}>Not available</p>
                 )}
 
-                {/*if coming from BEST_DEAL_PROPERTIES, show how good the deal is */}
+                {/* We show how much less the deal is than average in city*/}
                 {p.rentPctOfCityAvg && (
                   <p style={{ fontSize: "0.85rem", color: "#555" }}>
-                    This property is ~{100 -p.rentPctOfCityAvg}% less than average rent in {cityLabel}
+                    This property is ~{100 - p.rentPctOfCityAvg}% less than average rent in{" "}
+                    {cityLabel}
                   </p>
                 )}
               </div>
