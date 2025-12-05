@@ -31,3 +31,10 @@ CREATE INDEX IDX_MESSAGE_TIMESTAMP ON MESSAGE(TIME_STAMP);
 -- By indexing ADDRESS(CITY), MySQL can quickly locate all addresses in a given city using the index instead of scanning the full ADDRESS table.
 -- This index is critical for efficiently supporting searches that are city based.
 CREATE INDEX IDX_CITY ON ADDRESS(CITY);
+
+-- When users filter on min beds and min baths, this index lets MySQL quickly find the subset instead of checking every row
+CREATE INDEX idx_property_beds_baths ON PROPERTY (BEDROOMS, BATHROOMS);
+
+-- Helps join PROPERTY to ADDRESS, filter by CAN_RENT and RENT_COST
+CREATE INDEX idx_property_addr_canrent_rent ON PROPERTY (ADDR_ID, CAN_RENT, RENT_COST);
+
