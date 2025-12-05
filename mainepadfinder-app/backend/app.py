@@ -150,12 +150,15 @@ def get_properties():
                 P.CAN_RENT,
                 P.SQFT,
                 A.CITY,
-                A.STATE_CODE
+                A.STATE_CODE,
+                A.STREET,
+                A.ZIPCODE
             FROM PROPERTY AS P
             JOIN ADDRESS AS A
-              ON P.ADDR_ID = A.ADDR_ID
+            ON P.ADDR_ID = A.ADDR_ID
             WHERE 1=1
         """
+
         params = []
 
         if city:
@@ -203,7 +206,12 @@ def get_properties():
                 "sqft": row["SQFT"],
                 "city": row["CITY"],
                 "state": row["STATE_CODE"],
+
+                "addressLine1": row["STREET"],
+                "addressLine2": None,         
+                "zipCode": row["ZIPCODE"],
             })
+            
 
         return jsonify(properties), 200
 
@@ -321,8 +329,6 @@ def get_property_deals():
         return jsonify({"error": "Failed to load best deals"}), 500
     from flask import Flask, request, jsonify, g
 from functools import wraps
-
-# ... your existing code ...
 
 @app.post("/api/listing/<int:property_id>/review")
 @login_required
