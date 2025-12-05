@@ -1,6 +1,6 @@
 // mainepadfinder-app/frontend/src/pages/Listing.jsx
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 
 export default function Listing() {
   const location = useLocation();
@@ -126,6 +126,50 @@ export default function Listing() {
   function handleNext() {
     if (indexInList == null) return;
     goToIndex(indexInList + 1);
+  }
+
+  // simple local state for creating a review
+  const [starsInput, setStarsInput] = useState("");
+  const [commentInput, setCommentInput] = useState("");
+  const [savingReview, setSavingReview] = useState(false);
+  const [reviewError, setReviewError] = useState("");
+  const [reviewMessage, setReviewMessage] = useState("");
+
+  async function handleSubmitReview(e) {
+    e.preventDefault();
+    setReviewError("");
+    setReviewMessage("");
+    setSavingReview(true);
+
+    try {
+      const response = await fetch(
+        `https://localhost:5000/api/listing/${n.id}/review`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            stars: starsInput,
+            comments: commentInput,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setReviewError(data.error || "Failed to save review.");
+      } else {
+        setReviewMessage("Review submitted!");
+      }
+    } catch (err) {
+      console.error("Error submitting review:", err);
+      setReviewError("Network error while saving review.");
+    } finally {
+      setSavingReview(false);
+    }
   }
 
   // If user hit /listing/:id directly, show message 
@@ -255,7 +299,7 @@ export default function Listing() {
           </p>
         )}
 
-        {/* ⭐ ADDED: Review / rating line, always visible */}
+        {/* Review / rating*/}
         <p>
           <strong>Review: </strong>
           {normalizedRating.toFixed(1)} / 5{" "}
@@ -265,6 +309,56 @@ export default function Listing() {
             </span>
           )}
         </p>
+
+        {/* create or update a review */}
+        <hr style={{ margin: "1rem 0" }} />
+        <h3>Leave a review</h3>
+        <form
+          onSubmit={handleSubmitReview}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem",
+            maxWidth: "320px",
+          }}
+        >
+          <label>
+            Rating (1–5):{" "}
+            <input
+              type="number"
+              min="1"
+              max="5"
+              step="0.5"
+              value={starsInput}
+              onChange={(e) => setStarsInput(e.target.value)}
+              style={{ marginLeft: "0.5rem", width: "80px" }}
+              required
+            />
+          </label>
+
+          <label>
+            Comments (optional):
+            <textarea
+              value={commentInput}
+              onChange={(e) => setCommentInput(e.target.value)}
+              rows={3}
+              style={{ width: "100%", marginTop: "0.25rem" }}
+            />
+          </label>
+
+          <button type="submit" disabled={savingReview}>
+            {savingReview ? "Saving..." : "Submit review"}
+          </button>
+
+          {reviewError && (
+            <p style={{ color: "red", fontSize: "0.9rem" }}>{reviewError}</p>
+          )}
+          {reviewMessage && (
+            <p style={{ color: "green", fontSize: "0.9rem" }}>
+              {reviewMessage}
+            </p>
+          )}
+        </form>
 
         <p>
           <strong>Internal ID: </strong>

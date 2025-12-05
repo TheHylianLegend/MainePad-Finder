@@ -319,6 +319,53 @@ def get_property_deals():
     except Exception as e:
         print("Error in /api/properties/deals:", e)
         return jsonify({"error": "Failed to load best deals"}), 500
+    from flask import Flask, request, jsonify, g
+from functools import wraps
+
+# ... your existing code ...
+
+@app.post("/api/listing/<int:property_id>/review")
+@login_required
+def create_or_update_review(property_id):
+    """
+    Create or update a review for a single property by the logged-in user.
+    Uses the REVIEW table and enforces stars 1–5.
+    """
+    try:
+        data = request.get_json() or {}
+        stars = data.get("stars")
+        comments = (data.get("comments") or "").strip() or None
+
+        # validate stars
+        try:
+            stars_val = float(stars)
+        except (TypeError, ValueError):
+            return jsonify({"error": "Stars must be a number between 1 and 5."}), 400
+
+        if not (1 <= stars_val <= 5):
+            return jsonify({"error": "Stars must be between 1 and 5."}), 400
+
+        user_id = g.user_id  # from login_required
+
+        cursor.execute(
+            """
+            INSERT INTO REVIEW (USER_ID, PROPERTY_ID, COMMENTS, STARS)
+            VALUES (%s, %s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                COMMENTS = VALUES(COMMENTS),
+                STARS = VALUES(STARS)
+            """,
+            (user_id, property_id, comments, stars_val),
+        )
+        db.commit()
+
+        return jsonify({"message": "Review saved successfully"}), 201
+
+    except Exception as e:
+        print("Error in /api/listing/<id>/review:", e)
+        return jsonify({"error": "Failed to save review"}), 500
+
+
 
 if __name__ == "__main__":
     
