@@ -85,6 +85,49 @@ export default function Properties() {
     fetchProperties({ useFilters: false });
   };
 
+  // Best deals button handler (uses /api/properties/deals)
+  const handleBestDeals = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError("");
+
+    try {
+      const response = await fetch(
+        "https://localhost:5000/api/properties/deals",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            // use current city if provided, otherwise null = all cities
+            city: city.trim() || null,
+          }),
+        }
+      );
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || `Request failed with status ${response.status}`);
+        setProperties([]);
+        setPage(1);
+        return;
+      }
+
+      setProperties(data);
+      setPage(1);
+    } catch (err) {
+      console.error("Error loading best deals:", err);
+      setError("Could not load best deals (network error).");
+      setProperties([]);
+      setPage(1);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const totalResults = properties.length;
   const totalPages =
     totalResults === 0 ? 1 : Math.ceil(totalResults / PAGE_SIZE);
@@ -117,7 +160,7 @@ export default function Properties() {
     }
 
     if (raw === null || raw === undefined) {
-      // scraped data without flag assume available so we don't hide it
+      // scraped data with no flag → assume available so we don't hide it
       return true;
     }
 
@@ -129,7 +172,18 @@ export default function Properties() {
     <div style={{ padding: "2rem 3rem" }}>
       <h2>Browse Properties</h2>
       <p style={{ maxWidth: "600px" }}>
-        Apply filters below to find the perfect rental property in Maine!
+        Apply filters and browse available rental properties in Maine
+      </p>
+      <p
+        style={{
+          maxWidth: "600px",
+          fontSize: "0.9rem",
+          color: "#555",
+          marginTop: "0.25rem",
+        }}
+      >
+        Enter a city and click <strong> "Find me deals!"</strong> to find the best deals 
+        in your city!
       </p>
 
       {/* Filter Form */}
@@ -184,8 +238,8 @@ export default function Properties() {
             placeholder="e.g., 2"
             value={minBeds}
             onChange={(e) => setMinBeds(e.target.value)}
-            min="0"   // 0 = Studio, cannot go negative
-            step="1"  // only whole numbers
+            min="0" // 0 = Studio; cannot go negative
+            step="1" // only whole numbers
           />
         </div>
 
@@ -197,8 +251,8 @@ export default function Properties() {
             placeholder="e.g., 1"
             value={minBaths}
             onChange={(e) => setMinBaths(e.target.value)}
-            min="1"   // should not be less than one bath
-            step="1"  // only whole numbers
+            min="1" // should not be less than one bath
+            step="1" // only whole numbers
           />
         </div>
 
@@ -213,6 +267,15 @@ export default function Properties() {
           style={{ marginLeft: "0.5rem" }}
         >
           {loading ? "Loading..." : "No filters"}
+        </button>
+
+        <button
+          type="button"
+          onClick={handleBestDeals}
+          disabled={loading}
+          style={{ marginLeft: "0.5rem" }}
+        >
+          {loading ? "Loading..." : "Find me deals!"}
         </button>
       </form>
 
@@ -261,7 +324,7 @@ export default function Properties() {
         </div>
       </div>
 
-      {/* Results grid – CLICKABLE to Listing page */}
+      {/*CLICKABLE to Listing page */}
       <div
         style={{
           display: "grid",
@@ -275,11 +338,10 @@ export default function Properties() {
           const baths = p.baths ?? p.BATHROOMS;
           const isAvailable = isAvailableFromRaw(p);
 
-          const bedsLabel =
-            beds === 0 ? "Studio" : `${beds ?? "?"} bed`;
-
-          const city = p.city ?? p.CITY ?? "Unknown city";
+          const bedsLabel = beds === 0 ? "Studio" : `${beds ?? "?"} bed`;
           const rent = p.rent ?? p.RENT_COST;
+          const cityLabel = p.city ?? p.CITY ?? "Unknown city";
+          const stateLabel = p.state ?? p.STATE_CODE ?? "??";
 
           return (
             <Link
@@ -297,26 +359,26 @@ export default function Properties() {
                   cursor: "pointer",
                 }}
               >
-                {/* City as the main title */}
-                <h3>{city}</h3>
-
-                {/* How much per month */}
+                <h3>{cityLabel}</h3>
                 <p>
                   <strong>${rent}</strong> / month
                 </p>
-
-                {/* Beds + baths */}
                 <p>
                   {bedsLabel} • {baths ?? "?"} bath
                 </p>
-
-                {/* Availability only */}
                 {isAvailable ? (
                   <p style={{ color: "green", fontWeight: "bold" }}>
                     Available
                   </p>
                 ) : (
                   <p style={{ color: "gray" }}>Not available</p>
+                )}
+
+                {/*if coming from BEST_DEAL_PROPERTIES, show how good the deal is */}
+                {p.rentPctOfCityAvg && (
+                  <p style={{ fontSize: "0.85rem", color: "#555" }}>
+                    This property is ~{100 -p.rentPctOfCityAvg}% less than average rent in {cityLabel}
+                  </p>
                 )}
               </div>
             </Link>

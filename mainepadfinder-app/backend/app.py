@@ -12,23 +12,13 @@ import secrets
 load_dotenv()
 
 app = Flask(__name__)
-CORS(
-    app,
-    supports_credentials=True,
-    origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "https://localhost:5173",
-    ],
-)
-
+CORS(app, supports_credentials=True, origins=["https://localhost:5173"])  # allows frontend to communicate with backend
 
 db = mysql.connector.connect(
     host = os.getenv("DB_HOST"),
     user = os.getenv("DB_USER"),
     password = os.getenv("DB_PASSWORD"),
-    database = os.getenv("DB_NAME"),
-    ssl_disabled=True 
+    database = os.getenv("DB_NAME")
 )
 cursor = db.cursor(dictionary=True)
 
@@ -220,6 +210,76 @@ def get_properties():
     except Exception as e:
         print("Error in /api/properties:", e)
         return jsonify({"error": "Failed to load properties"}), 500
+    
+@app.route("/api/properties/deals", methods=["POST"])
+def get_property_deals():
+    """
+    Return 'best deal' properties from BEST_DEAL_PROPERTIES view.
+    Optional JSON body:
+    {
+        "city": "Portland"   # if given, limit to that city (LIKE %city%)
+    }
+    """
+    try:
+        data = request.get_json(silent=True) or {}
+        city = data.get("city")
+
+        sql = """
+            SELECT
+                PROPERTY_ID,
+                UNIT_LABEL,
+                RENT_COST,
+                BEDROOMS,
+                BATHROOMS,
+                CAN_RENT,
+                SQFT,
+                CITY,
+                STATE_CODE,
+                city_avg_rent,
+                rent_pct_of_city_avg
+            FROM BEST_DEAL_PROPERTIES
+        """
+        params = []
+
+        if city:
+            sql += " WHERE CITY LIKE %s"
+            params.append(f"%{city}%")
+
+        sql += " ORDER BY rent_pct_of_city_avg ASC, RENT_COST ASC LIMIT 50"
+
+        cursor.execute(sql, tuple(params))
+        rows = cursor.fetchall()
+
+        deals = []
+        for row in rows:
+            title = row["UNIT_LABEL"]
+            if not title:
+                pieces = []
+                if row["BEDROOMS"] is not None:
+                    pieces.append(f"{row['BEDROOMS']} bed")
+                if row["BATHROOMS"] is not None:
+                    pieces.append(f"{row['BATHROOMS']} bath")
+                title = " • ".join(pieces) if pieces else "Untitled unit"
+
+            deals.append({
+                "id": row["PROPERTY_ID"],
+                "title": title,
+                "rent": row["RENT_COST"],
+                "beds": row["BEDROOMS"],
+                "baths": row["BATHROOMS"],
+                "canRent": bool(row["CAN_RENT"]),
+                "sqft": row["SQFT"],
+                "city": row["CITY"],
+                "state": row["STATE_CODE"],
+                "cityAvgRent": row["city_avg_rent"],
+                "rentPctOfCityAvg": row["rent_pct_of_city_avg"],
+            })
+
+        return jsonify(deals), 200
+
+    except Exception as e:
+        print("Error in /api/properties/deals:", e)
+        return jsonify({"error": "Failed to load best deals"}), 500
 
 if __name__ == "__main__":
     

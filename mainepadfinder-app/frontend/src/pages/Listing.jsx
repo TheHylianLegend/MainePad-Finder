@@ -253,11 +253,6 @@ export default function Listing() {
 
         <hr style={{ margin: "1rem 0" }} />
 
-        <p style={{ fontSize: "0.9rem", color: "#666" }}>
-          This page will later include things like contact landlord actions and
-          a way to favorite the listing (save for later).
-        </p>
-
         {indexInList != null && totalInList != null && totalInList > 1 && (
           <div
             style={{
