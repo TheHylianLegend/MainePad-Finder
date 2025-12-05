@@ -16,6 +16,7 @@ CORS(app, supports_credentials=True, origins=["https://localhost:5173"])  # allo
 
 
 # Connects the backend to the MySQL database
+# Author: Ashley Pike
 db = mysql.connector.connect(
     host = os.getenv("DB_HOST"),
     user = os.getenv("DB_USER"),
@@ -25,6 +26,7 @@ db = mysql.connector.connect(
 cursor = db.cursor(dictionary=True)
 
 # This decorator wraps a function with a check to see if the user has a valid token before proceeding
+# Author: Ashley Pike
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
@@ -47,6 +49,7 @@ def login_required(f):
     return decorated_function
 
 # Signup allows a new user to be added to the database corresponding to the provided user data
+# Author: Ashley Pike
 @app.post("/api/signup")
 def signup():
     data = request.get_json()
@@ -81,20 +84,9 @@ def signup():
 
     return jsonify({"message": "User created successfully"}), 201
 
-# get_prof_details() written by Jeffrey Fosgate (December 3, 2025)
-@app.get("/api/profile")
-@login_required
-def get_prof_details():
-    cursor.execute("SELECT * FROM USERS WHERE USER_ID = %s", (g.user_id))
-    prof_details = cursor.fetchone()
-
-    if not prof_details:
-        return jsonify({"error": "Profile not found."}), 404
-    
-    return jsonify(prof_details, status=200)
-
 # This function checks supplied username and password against the database
 # and provides a session token to the user for authentication
+# Author: Ashley Pike
 @app.post("/api/login")
 def login():
     data = request.get_json()
@@ -112,15 +104,62 @@ def login():
     createdAt = datetime.now(timezone.utc)
     expiresAt = createdAt + timedelta(days=1)
 
-    resp = jsonify({"message": "Login successful"})
-    resp.set_cookie('token', token, expires=expiresAt, secure=True, httponly=True, samesite="None")
+    response = jsonify({"message": "Login successful"})
+    response.set_cookie('token', token, expires=expiresAt, secure=True, httponly=True, samesite="None")
 
     cursor.execute("INSERT INTO SESSIONS (TOKEN, USER_ID, CREATED_AT, EXPIRES_AT) VALUES (%s, %s, %s, %s)", (token, userID, createdAt, expiresAt))
     db.commit()
 
-    return resp, 200
+    return response, 200
+
+@app.post("/api/logout")
+@login_required
+def logout():
+    token = request.cookies.get("token")
+
+    if token:
+        cursor.execute("DELETE FROM SESSIONS WHERE TOKEN = %s", (token,))
+        db.commit()
+
+    response = jsonify({"message": "Logged out"})
+    response.set_cookie("token", "", expires=0, secure=True, httponly=True, samesite="None")
+    return response, 200
+
+@app.get("/api/me")
+@login_required
+def me():
+    user_id = g.user_id
+    
+    cursor.execute(
+        "SELECT USER_ID, USERNAME, EMAIL FROM USERS WHERE USER_ID = %s",
+        (user_id,)
+    )
+    user = cursor.fetchone()
+
+    if not user:
+        return jsonify({"error": "User not found."}), 404
+
+    return jsonify({
+        "user_id": user["USER_ID"],
+        "username": user["USERNAME"],
+        "email": user["EMAIL"]
+    }), 200
+
+# get_prof_details() written by Jeffrey Fosgate (December 3, 2025)
+@app.get("/api/profile")
+@login_required
+def get_prof_details():
+    cursor.execute("SELECT * FROM USERS WHERE USER_ID = %s", (g.user_id,))
+    prof_details = cursor.fetchone()
+
+    if not prof_details:
+        return jsonify({"error": "Profile not found."}), 404
+    
+    return jsonify(prof_details, status=200)
 
 
+
+# Author: Ashley Pike
 if __name__ == "__main__":
     app.run(
         host='localhost',

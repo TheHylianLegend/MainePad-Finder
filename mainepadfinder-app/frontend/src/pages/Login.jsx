@@ -1,12 +1,18 @@
+// Author: Ashley Pike
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams, useNavigate, replace } from "react-router-dom";
+import { AuthProvider, useAuth } from "../App.jsx";
 
 export default function Login() {
+  const [params] = useSearchParams();
+  const { login } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+
+  const redirectTo = params.get("redirect") ? decodeURIComponent(params.get("redirect")) : "/home";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,7 +31,8 @@ export default function Login() {
       const data = await response.json();
 
       if (response.ok) {
-        navigate("/");
+        login();
+        navigate(redirectTo, replace);
       } else {
         setError(data.error || "Login failed");
       }
