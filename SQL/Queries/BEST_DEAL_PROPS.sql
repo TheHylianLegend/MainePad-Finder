@@ -3,7 +3,7 @@
 -- This finds the best deals based on the city the user enters 
 -- by finding properties under the average for the city they filtered
 
-USE mainepadfinder;
+USE MAINEPAD;
 
 -- We use view to build a derived table of the best deal properties
 CREATE OR REPLACE VIEW BEST_DEAL_PROPERTIES AS
