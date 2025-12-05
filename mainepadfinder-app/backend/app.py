@@ -218,14 +218,12 @@ def get_listing_with_landlord(property_id):
         cursor.execute("CALL GET_LISTING_WITH_LANDLORD(%s)", (property_id,))
         row = cursor.fetchone()
 
-        # Clear any remaining result sets from the CALL (safe to keep)
         while cursor.nextset():
             pass
 
         if not row:
             return jsonify({"error": "Listing not found"}), 404
 
-        # Just return fields directly, no fancy title or boolean conversion
         result = {
             "id": row["PROPERTY_ID"],
             "unitLabel": row["UNIT_LABEL"],
@@ -237,6 +235,8 @@ def get_listing_with_landlord(property_id):
             "city": row["CITY"],
             "state": row["STATE_CODE"],
             "zip": row.get("ZIP_CODE"),
+
+            "avgRating": row.get("AVG_RATING"),
 
             "landlordName": row.get("LANDLORD_NAME"),
             "landlordEmail": row.get("LANDLORD_EMAIL"),

@@ -76,11 +76,20 @@ export default function Listing() {
       canRent: available,
       landlordName: p.landlordName ?? p.LANDLORD_NAME ?? null,
       landlordEmail: p.landlordEmail ?? p.LANDLORD_EMAIL ?? null,
+
+      // average rating, if the backend sends it (avgRating / AVG_RATING)
+      avgRating: p.avgRating ?? p.AVG_RATING ?? null,
+
       raw: p,
     };
   }
 
   const n = normalize(property);
+
+  // numeric rating (0–5), default to 0 if we have no reviews yet
+  const avgRating = n?.avgRating;
+  const normalizedRating =
+    typeof avgRating === "number" ? avgRating : 0;
 
   // Prev and Next navigation for listing page
   const { indexInList, totalInList } = useMemo(() => {
@@ -246,6 +255,17 @@ export default function Listing() {
           </p>
         )}
 
+        {/* ⭐ ADDED: Review / rating line, always visible */}
+        <p>
+          <strong>Review: </strong>
+          {normalizedRating.toFixed(1)} / 5{" "}
+          {avgRating == null && (
+            <span style={{ color: "#666", fontSize: "0.9rem" }}>
+              (no reviews yet)
+            </span>
+          )}
+        </p>
+
         <p>
           <strong>Internal ID: </strong>
           {n.id}
@@ -300,4 +320,3 @@ export default function Listing() {
     </div>
   );
 }
-
