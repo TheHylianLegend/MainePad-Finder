@@ -28,6 +28,8 @@ BEGIN
         A.STATE_CODE,
         A.ZIP_CODE,
 
+        -- We also want to display the average rating of the property 
+        GET_AVG_RATING(P.PROPERTY_ID) AS AVG_RATING,
         -- landlord contact information, may be NULL for scraped properties
         U.DISPLAY_NAME AS LANDLORD_NAME,
         U.EMAIL        AS LANDLORD_EMAIL,
