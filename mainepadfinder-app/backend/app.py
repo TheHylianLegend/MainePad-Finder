@@ -147,7 +147,7 @@ def me():
 
 # This profile retrieves all profile details pertaining to the user of the account currently logged in.
 # If no user is logged in, redirect to login page in accordance with @login_required
-# Author: Jeffrey Fosgate
+# Author: Jeffrey Fosgate (December 3, 2025 -- Updated December 6, 2025)
 @app.get("/api/profile")
 @login_required
 def get_prof_details():
@@ -158,6 +158,18 @@ def get_prof_details():
         return jsonify({"error": "Profile not found."}), 404
     
     return jsonify(prof_details, status=200)
+
+# Is the chosen property (prop_id) trending UP (0) or DOWN (1)? Return (-1) if this cannot be discerned due to insufficient data.
+# Author: Jeffrey Fosgate (December 6, 2025)
+def prop_price_trending(prop_id):
+    cursor.execute("SELECT * FROM PROP_PRICE_HISTORY WHERE PROP_ID = %s ORDER BY PRICE_START DESC", prop_id)
+    prop_hist_data = cursor.fetchall()
+    if len(prop_hist_data) < 2:
+        return -1
+    elif prop_hist_data[0] > prop_hist_data[1]: # If this property's most recent price is higher than it was before...
+        return 0
+    else:
+        return 1
 
 # Author: Ashley Pike
 if __name__ == "__main__":
