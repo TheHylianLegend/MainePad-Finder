@@ -145,7 +145,9 @@ def me():
         "email": user["EMAIL"]
     }), 200
 
-# get_prof_details() written by Jeffrey Fosgate (December 3, 2025)
+# This profile retrieves all profile details pertaining to the user of the account currently logged in.
+# If no user is logged in, redirect to login page in accordance with @login_required
+# Author: Jeffrey Fosgate
 @app.get("/api/profile")
 @login_required
 def get_prof_details():
@@ -156,8 +158,6 @@ def get_prof_details():
         return jsonify({"error": "Profile not found."}), 404
     
     return jsonify(prof_details, status=200)
-
-
 
 # Author: Ashley Pike
 if __name__ == "__main__":
